@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useGameState } from './useGameState';
 import { useSoundEffects } from './useSoundEffects';
 
-export const useGameLogic = () => {
+export const useGameLogic = (soundEffectsEnabled: boolean) => {
   const {
     playerPosition,
     lives,
@@ -45,8 +45,8 @@ export const useGameLogic = () => {
   }, [currentQuestion, showQuestion, handleAnswer]);
 
   const handleSubmitAnswer = useCallback(() => {
-    // Play win/lose sound based on answer
-    if (selectedAnswer !== null && currentQuestion !== null) {
+    // Play win/lose sound based on answer if sound effects are enabled
+    if (soundEffectsEnabled && selectedAnswer !== null && currentQuestion !== null) {
       if (selectedAnswer === currentQuestion.correctAnswer) {
         playBattleWin();
       } else {
@@ -55,7 +55,7 @@ export const useGameLogic = () => {
     }
     
     resolveBattle();
-  }, [selectedAnswer, currentQuestion, resolveBattle, playBattleWin, playBattleLose]);
+  }, [selectedAnswer, currentQuestion, resolveBattle, soundEffectsEnabled, playBattleWin, playBattleLose]);
 
   // Check win condition
   useEffect(() => {
@@ -67,12 +67,12 @@ export const useGameLogic = () => {
         // This would need to be handled in the useGameState hook
         // For now, the logic remains here but could be moved
       }
-    } else if (gameState === 'gameOver') {
+    } else if (gameState === 'gameOver' && soundEffectsEnabled) {
       playGameOver();
-    } else if (gameState === 'victory') {
+    } else if (gameState === 'victory' && soundEffectsEnabled) {
       playCastleReach();
     }
-  }, [gameState, playerPosition, obstacles, playGameOver, playCastleReach]);
+  }, [gameState, playerPosition, obstacles, soundEffectsEnabled, playGameOver, playCastleReach]);
 
   // Initialize game on mount
   useEffect(() => {

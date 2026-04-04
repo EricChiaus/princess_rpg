@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { 
   PrincessUnicorn, 
@@ -21,6 +21,9 @@ const GRID_SIZE = 8;
 const CELL_SIZE = 120;
 
 export default function App() {
+  const [bgMusicEnabled, setBgMusicEnabled] = useState(true);
+  const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true);
+
   const {
     playerPosition,
     lives,
@@ -35,7 +38,7 @@ export default function App() {
     handleSubmitAnswer,
     isRoadCell,
     canClickObstacle,
-  } = useGameLogic();
+  } = useGameLogic(soundEffectsEnabled);
 
   const {
     playBackgroundMusic,
@@ -48,7 +51,22 @@ export default function App() {
 
   const handleStartGame = () => {
     initializeGame();
-    playBackgroundMusic();
+    if (bgMusicEnabled) {
+      playBackgroundMusic();
+    }
+  };
+
+  const toggleBackgroundMusic = () => {
+    if (bgMusicEnabled) {
+      stopBackgroundMusic();
+    } else {
+      playBackgroundMusic();
+    }
+    setBgMusicEnabled(!bgMusicEnabled);
+  };
+
+  const toggleSoundEffects = () => {
+    setSoundEffectsEnabled(!soundEffectsEnabled);
   };
 
   // Initialize audio on first user interaction
@@ -94,6 +112,32 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-400 via-green-400 to-blue-500 relative overflow-hidden">
+      {/* Audio Control Buttons - Top Left Corner */}
+      <div className="absolute top-4 left-4 z-30 flex gap-2">
+        <button
+          onClick={toggleBackgroundMusic}
+          className={`px-3 py-2 rounded-lg font-bold text-sm transition-colors ${
+            bgMusicEnabled 
+              ? 'bg-green-500 text-white hover:bg-green-600' 
+              : 'bg-gray-500 text-white hover:bg-gray-600'
+          }`}
+          title="Toggle Background Music"
+        >
+          🎵 {bgMusicEnabled ? 'ON' : 'OFF'}
+        </button>
+        <button
+          onClick={toggleSoundEffects}
+          className={`px-3 py-2 rounded-lg font-bold text-sm transition-colors ${
+            soundEffectsEnabled 
+              ? 'bg-blue-500 text-white hover:bg-blue-600' 
+              : 'bg-gray-500 text-white hover:bg-gray-600'
+          }`}
+          title="Toggle Sound Effects"
+        >
+          🔊 {soundEffectsEnabled ? 'ON' : 'OFF'}
+        </button>
+      </div>
+
       {/* Scenic Background Elements */}
       <div className="absolute inset-0">
         {/* Forest areas */}
