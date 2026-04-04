@@ -57,22 +57,28 @@ export default function App() {
   };
 
   const toggleBackgroundMusic = () => {
+    console.log('Toggling background music, current state:', bgMusicEnabled);
     if (bgMusicEnabled) {
       stopBackgroundMusic();
+      console.log('Background music stopped');
     } else {
       playBackgroundMusic();
+      console.log('Background music started');
     }
     setBgMusicEnabled(!bgMusicEnabled);
   };
 
   const toggleSoundEffects = () => {
+    console.log('Toggling sound effects, current state:', soundEffectsEnabled);
     setSoundEffectsEnabled(!soundEffectsEnabled);
   };
 
   // Initialize audio on first user interaction
   useEffect(() => {
     const handleFirstClick = () => {
-      playBackgroundMusic();
+      if (bgMusicEnabled) {
+        playBackgroundMusic();
+      }
       document.removeEventListener('click', handleFirstClick);
     };
 
@@ -84,7 +90,7 @@ export default function App() {
     return () => {
       document.removeEventListener('click', handleFirstClick);
     };
-  }, [gameState, playBackgroundMusic]);
+  }, [gameState, bgMusicEnabled, playBackgroundMusic]);
 
   const handleCastleClick = () => {
     if (gameState === 'playing') {
