@@ -16,8 +16,8 @@ const obstacleDifficulty: Record<string, 'easy' | 'medium' | 'hard' | 'expert' |
 };
 
 // Check if position is reachable from player position along road
-const isPositionReachable = (playerPos: Position, targetPos: Position, road: Position[]): boolean => {
-  // Create a set of reachable positions using BFS
+const isPositionReachable = (playerPos: Position, targetPos: Position, road: Position[], obstacles: Obstacle[]): boolean => {
+  // Create a set of reachable positions using BFS, but stop at first uncleared obstacle
   const reachable = new Set<string>();
   const queue: Position[] = [playerPos];
   const visited = new Set<string>();
@@ -30,6 +30,18 @@ const isPositionReachable = (playerPos: Position, targetPos: Position, road: Pos
     
     // Add current position to reachable set
     reachable.add(currentKey);
+    
+    // Check if there's an uncleared obstacle at current position
+    const obstacleAtCurrent = obstacles.find(obs => 
+      obs.position.x === current.x && 
+      obs.position.y === current.y && 
+      !obs.cleared
+    );
+    
+    // If there's an uncleared obstacle here, don't explore further from this position
+    if (obstacleAtCurrent) {
+      continue;
+    }
     
     // Find all adjacent road positions
     const adjacentPositions = [
@@ -86,7 +98,7 @@ export const useGameState = () => {
     if (!obstacle) return;
     
     // Check if obstacle is reachable
-    if (!isPositionReachable(playerPosition, obstacle.position, roadPath)) {
+    if (!isPositionReachable(playerPosition, obstacle.position, roadPath, obstacles)) {
       return; // Don't allow battle if not reachable
     }
     
@@ -138,7 +150,7 @@ export const useGameState = () => {
     const obstacle = obstacles.find(obs => obs.id === obstacleId);
     if (!obstacle || obstacle.cleared || gameState !== 'playing') return false;
     
-    return isPositionReachable(playerPosition, obstacle.position, roadPath);
+    return isPositionReachable(playerPosition, obstacle.position, roadPath, obstacles);
   }, [obstacles, playerPosition, roadPath, gameState]);
 
   return {
