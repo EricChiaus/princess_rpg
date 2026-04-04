@@ -142,12 +142,14 @@ export const useGameState = () => {
     if (selectedAnswer === currentQuestion.correctAnswer) {
       // Correct answer - no life lost
     } else {
-      // Wrong answer - lose a life
-      const newLives = lives - 1;
-      setLives(newLives);
-      
-      if (newLives <= 0) {
-        setGameState('gameOver');
+      // Wrong answer - lose a life, but not for treasure chests
+      if (obstacle && obstacle.type !== 'treasure') {
+        const newLives = lives - 1;
+        setLives(newLives);
+        
+        if (newLives <= 0) {
+          setGameState('gameOver');
+        }
       }
     }
 

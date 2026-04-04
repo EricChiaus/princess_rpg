@@ -215,10 +215,11 @@ export default function App() {
                   {isPlayer && <div className="absolute inset-0 z-20"><PrincessUnicorn /></div>}
                   {isCastle && !isPlayer && (
                     <div 
-                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform flex items-center justify-center"
+                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform flex items-center justify-center border-2 border-transparent hover:border-purple-400 hover:border-opacity-50 rounded"
                       onClick={handleCastleClick}
-                      style={{ minHeight: '100%', minWidth: '100%' }}
                     >
+                      {/* Transparent overlay to ensure full area is clickable */}
+                      <div className="absolute inset-0 bg-transparent" />
                       <RainbowCastle />
                     </div>
                   )}
