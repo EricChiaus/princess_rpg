@@ -94,16 +94,24 @@ export default function App() {
   }, [gameState, bgMusicEnabled, playBackgroundMusic]);
 
   const handleCastleClick = () => {
+    console.log('Castle clicked!');
+    
     if (gameState === 'playing') {
       const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
+      console.log('Game state:', gameState, 'Castle position:', castlePosition);
+      
       // Check if player can reach castle
       if (isRoadCell(castlePosition.x, castlePosition.y)) {
+        console.log('Castle is on road');
+        
         // Check if path is clear (no uncleared obstacles blocking)
         const hasPathToCastle = obstacles.every(obs => {
           if (obs.cleared) return true;
           // Check if this obstacle blocks the path to castle
           return !(obs.position.x === castlePosition.x && obs.position.y === castlePosition.y);
         });
+        
+        console.log('Path to castle clear:', hasPathToCastle);
         
         if (hasPathToCastle) {
           playCastleReach();
@@ -112,7 +120,11 @@ export default function App() {
         } else {
           console.log('Castle clicked but path is blocked!');
         }
+      } else {
+        console.log('Castle is not on road!');
       }
+    } else {
+      console.log('Game not in playing state:', gameState);
     }
   };
 
@@ -203,8 +215,9 @@ export default function App() {
                   {isPlayer && <div className="absolute inset-0 z-20"><PrincessUnicorn /></div>}
                   {isCastle && !isPlayer && (
                     <div 
-                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform"
+                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform flex items-center justify-center"
                       onClick={handleCastleClick}
+                      style={{ minHeight: '100%', minWidth: '100%' }}
                     >
                       <RainbowCastle />
                     </div>

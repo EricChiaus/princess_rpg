@@ -117,6 +117,8 @@ export const useGameState = () => {
     if (selectedAnswer === null || currentQuestion === null || currentBattlingObstacle === null) return;
 
     // Always clear the obstacle and move player (regardless of win/lose)
+    const obstacle = obstacles.find(obs => obs.id === currentBattlingObstacle);
+    
     setObstacles(prev => prev.map(obs => 
       obs.id === currentBattlingObstacle 
         ? { ...obs, cleared: true }
@@ -124,10 +126,15 @@ export const useGameState = () => {
     ));
     
     // Move player to obstacle position
-    const obstacle = obstacles.find(obs => obs.id === currentBattlingObstacle);
     if (obstacle) {
       const newPosition = obstacle.position;
       setPlayerPosition(newPosition);
+      
+      // Special handling for treasure chests - add a heart
+      if (obstacle.type === 'treasure' && lives < 3) {
+        setLives(prev => Math.min(prev + 1, 3)); // Add heart, max 3 hearts
+        console.log('Treasure chest collected! Gained a heart.');
+      }
       
       // Removed automatic victory check - victory only happens when castle is clicked
     }
