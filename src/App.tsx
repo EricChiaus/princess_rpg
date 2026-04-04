@@ -13,6 +13,7 @@ import {
   VictoryModal
 } from './components';
 import { useGameLogic } from './hooks/useGameLogic';
+import { useSoundEffects } from './hooks/useSoundEffects';
 
 // Game constants
 const GRID_SIZE = 8;
@@ -35,12 +36,44 @@ export default function App() {
     canClickObstacle,
   } = useGameLogic();
 
+  const {
+    playBackgroundMusic,
+    stopBackgroundMusic,
+    playBattleStart,
+    playBattleWin,
+    playBattleLose,
+    playGameOver,
+    playCastleReach,
+  } = useSoundEffects();
+
+  const handleCastleClick = () => {
+    if (gameState === 'playing') {
+      const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
+      // Check if player can reach castle
+      if (isRoadCell(castlePosition.x, castlePosition.y)) {
+        // Check if path is clear (no uncleared obstacles blocking)
+        const hasPathToCastle = obstacles.every(obs => {
+          if (obs.cleared) return true;
+          // Check if this obstacle blocks the path to castle
+          return !(obs.position.x === castlePosition.x && obs.position.y === castlePosition.y);
+        });
+        
+        if (hasPathToCastle) {
+          playCastleReach();
+          // Trigger victory
+          setTimeout(() => {
+            // This will be handled by the existing victory logic
+            console.log('Castle clicked and reachable!');
+          }, 100);
+        }
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-400 via-green-400 to-blue-500 relative overflow-hidden">
       {/* Scenic Background Elements */}
       <div className="absolute inset-0">
-        {/* Beach area */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-yellow-200 to-yellow-100 opacity-60"></div>
         {/* Forest areas */}
         <div className="absolute top-10 left-10 w-32 h-32 bg-green-600 rounded-full opacity-30 blur-xl"></div>
         <div className="absolute top-20 right-20 w-40 h-40 bg-green-700 rounded-full opacity-30 blur-xl"></div>
@@ -96,7 +129,14 @@ export default function App() {
                     <div className="absolute inset-0 border-l-2 border-r-2 border-yellow-400 border-opacity-30"></div>
                   )}
                   {isPlayer && <div className="absolute inset-0 z-20"><PrincessUnicorn /></div>}
-                  {isCastle && !isPlayer && <div className="absolute inset-0 z-10"><RainbowCastle /></div>}
+                  {isCastle && !isPlayer && (
+                    <div 
+                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform"
+                      onClick={handleCastleClick}
+                    >
+                      <RainbowCastle />
+                    </div>
+                  )}
                   {obstacle && !isPlayer && (
                     <div 
                       className={`absolute inset-0 z-10 transition-transform ${
