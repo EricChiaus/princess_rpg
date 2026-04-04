@@ -6,6 +6,15 @@ import { generateQuestion } from './useMathQuestions';
 const GRID_SIZE = 8;
 const MAX_LIVES = 3;
 
+// Map obstacle types to difficulty levels
+const obstacleDifficulty: Record<string, 'easy' | 'medium' | 'hard' | 'expert' | 'master'> = {
+  'stone': 'easy',
+  'bat': 'medium', 
+  'witch': 'hard',
+  'treasure': 'expert',
+  'monster': 'master'
+};
+
 export const useGameState = () => {
   const [playerPosition, setPlayerPosition] = useState<Position>({ x: 0, y: GRID_SIZE - 1 });
   const [lives, setLives] = useState(MAX_LIVES);
@@ -33,11 +42,15 @@ export const useGameState = () => {
   }, []);
 
   const startBattle = useCallback((obstacleId: string) => {
+    const obstacle = obstacles.find(obs => obs.id === obstacleId);
+    if (!obstacle) return;
+    
+    const difficulty = obstacleDifficulty[obstacle.type];
+    setCurrentQuestion(generateQuestion(difficulty));
     setCurrentBattlingObstacle(obstacleId);
-    setCurrentQuestion(generateQuestion());
     setShowQuestion(true);
     setSelectedAnswer(null);
-  }, []);
+  }, [obstacles]);
 
   const handleAnswer = useCallback((answerIndex: number) => {
     setSelectedAnswer(answerIndex);

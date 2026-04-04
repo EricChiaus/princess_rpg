@@ -76,7 +76,7 @@ export const generateRandomRoad = (): Position[] => {
   return road;
 };
 
-// Generate obstacles on road with higher density
+// Generate obstacles on road with higher density but reduced treasure chests
 export const generateObstacles = (road: Position[]): Obstacle[] => {
   const obstacleTypes: ObstacleType[] = ['stone', 'bat', 'witch', 'monster', 'treasure'];
   const obstacles: Obstacle[] = [];
@@ -91,13 +91,41 @@ export const generateObstacles = (road: Position[]): Obstacle[] => {
   // Shuffle available positions
   const shuffledPositions = [...availablePositions].sort(() => Math.random() - 0.5);
   
+  // Track treasure chest count to limit them
+  let treasureChestCount = 0;
+  const maxTreasureChests = Math.max(1, Math.floor(shuffledPositions.length * 0.1)); // Max 10% treasure chests
+  
   for (let i = 0; i < obstacleCount && i < shuffledPositions.length; i++) {
     const position = shuffledPositions[i];
+    
+    // Select obstacle type with reduced probability for treasure chests
+    let obstacleType: ObstacleType;
+    
+    if (treasureChestCount >= maxTreasureChests) {
+      // No more treasure chests allowed, choose from other types
+      const nonTreasureTypes = obstacleTypes.filter(type => type !== 'treasure');
+      obstacleType = nonTreasureTypes[Math.floor(Math.random() * nonTreasureTypes.length)];
+    } else {
+      // Normal selection but with lower treasure chest probability
+      const random = Math.random();
+      if (random < 0.05) { // 5% chance for treasure chest (reduced from 20%)
+        obstacleType = 'treasure';
+        treasureChestCount++;
+      } else if (random < 0.30) { // 25% chance for stone
+        obstacleType = 'stone';
+      } else if (random < 0.55) { // 25% chance for bat
+        obstacleType = 'bat';
+      } else if (random < 0.80) { // 25% chance for witch
+        obstacleType = 'witch';
+      } else { // 20% chance for monster
+        obstacleType = 'monster';
+      }
+    }
     
     selectedPositions.push(position);
     obstacles.push({
       id: `obstacle-${position.x}-${position.y}`,
-      type: obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)],
+      type: obstacleType,
       position,
       cleared: false
     });
