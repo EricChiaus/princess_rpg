@@ -46,6 +46,11 @@ export default function App() {
     playCastleReach,
   } = useSoundEffects();
 
+  const handleStartGame = () => {
+    initializeGame();
+    playBackgroundMusic();
+  };
+
   const handleCastleClick = () => {
     if (gameState === 'playing') {
       const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
@@ -96,10 +101,10 @@ export default function App() {
           ))}
         </div>
         <button
-          onClick={initializeGame}
+          onClick={handleStartGame}
           className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold shadow-lg"
         >
-          Reset Game
+          Start Game
         </button>
       </div>
 
@@ -171,12 +176,12 @@ export default function App() {
 
       {/* Game Over Modal */}
       {gameState === 'gameOver' && (
-        <GameOverModal onPlayAgain={initializeGame} />
+        <GameOverModal onPlayAgain={handleStartGame} />
       )}
 
       {/* Victory Modal */}
       {gameState === 'victory' && (
-        <VictoryModal onPlayAgain={initializeGame} />
+        <VictoryModal onPlayAgain={handleStartGame} />
       )}
     </div>
   );

@@ -9,7 +9,7 @@ export const useSoundEffects = () => {
   const castleReachRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Initialize audio elements
+    // Initialize audio elements - support both MP3 and WAV formats
     bgMusicRef.current = new Audio('/sounds/background-music.mp3');
     battleStartRef.current = new Audio('/sounds/battle-start.mp3');
     battleWinRef.current = new Audio('/sounds/battle-win.mp3');
@@ -17,10 +17,39 @@ export const useSoundEffects = () => {
     gameOverRef.current = new Audio('/sounds/game-over.mp3');
     castleReachRef.current = new Audio('/sounds/castle-reach.mp3');
 
-    // Configure background music
+    // Try WAV fallback if MP3 doesn't exist
+    const tryWavFallback = (audioRef: React.RefObject<HTMLAudioElement>, wavFile: string) => {
+      if (audioRef.current) {
+        audioRef.current.addEventListener('error', () => {
+          console.log(`MP3 not found, trying WAV: ${wavFile}`);
+          audioRef.current!.src = `/sounds/${wavFile}`;
+        }, { once: true });
+      }
+    };
+
+    // Apply WAV fallbacks
+    tryWavFallback(bgMusicRef, 'background-music.wav');
+    tryWavFallback(battleStartRef, 'battle-start.wav');
+    tryWavFallback(battleWinRef, 'battle-win.wav');
+    tryWavFallback(battleLoseRef, 'battle-lose.wav');
+    tryWavFallback(gameOverRef, 'game-over.wav');
+    tryWavFallback(castleReachRef, 'castle-reach.wav');
+
+    // Configure background music with proper looping
     if (bgMusicRef.current) {
       bgMusicRef.current.loop = true;
       bgMusicRef.current.volume = 0.3;
+      
+      // Ensure looping works even if the file doesn't support loop attribute
+      bgMusicRef.current.addEventListener('ended', () => {
+        if (bgMusicRef.current) {
+          bgMusicRef.current.currentTime = 0;
+          bgMusicRef.current.play().catch(() => {
+            // Handle autoplay restrictions
+            console.log('Background music requires user interaction to start');
+          });
+        }
+      });
     }
 
     // Configure sound effects
@@ -49,10 +78,12 @@ export const useSoundEffects = () => {
   }, []);
 
   const playBackgroundMusic = () => {
-    bgMusicRef.current?.play().catch(() => {
-      // Handle autoplay restrictions
-      console.log('Background music requires user interaction to start');
-    });
+    if (bgMusicRef.current) {
+      bgMusicRef.current.play().catch(() => {
+        // Handle autoplay restrictions
+        console.log('Background music requires user interaction to start');
+      });
+    }
   };
 
   const stopBackgroundMusic = () => {

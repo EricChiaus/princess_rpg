@@ -5,16 +5,16 @@
 Download these royalty-free sound effects and place them in this directory:
 
 ### 1. Background Music
-- **File:** `background-music.mp3`
+- **File:** `background-music.mp3` OR `background-music.wav`
 - **Type:** Princessy, magical, ambient music
-- **Length:** 2-3 minutes (will loop)
+- **Length:** 2-3 minutes (will loop automatically)
 - **Suggestions:** 
   - "Fantasy Adventure" music
   - "Magical Forest" ambient
   - "Princess Theme" instrumental
 
 ### 2. Battle Start
-- **File:** `battle-start.mp3`
+- **File:** `battle-start.mp3` OR `battle-start.wav`
 - **Type:** Short sound effect (1-2 seconds)
 - **Suggestions:**
   - Magic sparkle
@@ -22,7 +22,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Challenge accepted sound
 
 ### 3. Battle Win
-- **File:** `battle-win.mp3`
+- **File:** `battle-win.mp3` OR `battle-win.wav`
 - **Type:** Victory sound (2-3 seconds)
 - **Suggestions:**
   - Success chime
@@ -30,7 +30,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Positive fanfare
 
 ### 4. Battle Lose
-- **File:** `battle-lose.mp3`
+- **File:** `battle-lose.mp3` OR `battle-lose.wav`
 - **Type:** Defeat sound (2-3 seconds)
 - **Suggestions:**
   - Sad trombone
@@ -38,7 +38,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Defeat sound effect
 
 ### 5. Game Over
-- **File:** `game-over.mp3`
+- **File:** `game-over.mp3` OR `game-over.wav`
 - **Type:** Game over music/sound (3-5 seconds)
 - **Suggestions:**
   - Game over theme
@@ -46,12 +46,18 @@ Download these royalty-free sound effects and place them in this directory:
   - Defeat fanfare
 
 ### 6. Castle Reach
-- **File:** `castle-reach.mp3`
+- **File:** `castle-reach.mp3` OR `castle-reach.wav`
 - **Type:** Victory/achievement sound (2-4 seconds)
 - **Suggestions:**
   - Victory fanfare
   - Castle bells
   - Triumph sound
+
+## Audio Format Support
+
+✅ **MP3 files** - Preferred, smaller file size
+✅ **WAV files** - Also supported, higher quality
+🔄 **Automatic fallback** - Tries MP3 first, then WAV
 
 ## Recommended Sources
 
@@ -79,28 +85,28 @@ Download these royalty-free sound effects and place them in this directory:
 
 ## Download Tips
 
-- **File Format:** MP3 (preferred for web)
-- **Quality:** 128kbps or higher
+- **File Format:** MP3 (preferred) or WAV (both supported)
+- **Quality:** 128kbps or higher for MP3
 - **Length:** Keep sounds short and loopable for music
 - **Volume:** Moderate levels (game will adjust)
 - **License:** Ensure royalty-free for commercial use
 
 ## File Naming
 
-Make sure files are named exactly:
-- `background-music.mp3`
-- `battle-start.mp3`
-- `battle-win.mp3`
-- `battle-lose.mp3`
-- `game-over.mp3`
-- `castle-reach.mp3`
+Make sure files are named exactly (either MP3 or WAV extension):
+- `background-music.mp3` or `background-music.wav`
+- `battle-start.mp3` or `battle-start.wav`
+- `battle-win.mp3` or `battle-win.wav`
+- `battle-lose.mp3` or `battle-lose.wav`
+- `game-over.mp3` or `game-over.wav`
+- `castle-reach.mp3` or `castle-reach.wav`
 
 ## After Downloading
 
 Once all files are in place:
 1. Restart the development server
 2. The game will automatically load and play the sounds
-3. Background music will loop during gameplay
+3. Background music will loop continuously during gameplay
 4. Sound effects will trigger on appropriate actions
 
 ## Testing
@@ -111,4 +117,12 @@ Test each sound by:
 3. Answering incorrectly (battle-lose)
 4. Losing all lives (game-over)
 5. Clicking reachable castle (castle-reach)
-6. Background music should play continuously
+6. Background music should play continuously and loop
+
+## Background Music Looping
+
+The background music will:
+- ✅ Loop automatically using HTML5 audio loop attribute
+- ✅ Have fallback manual looping for files that don't support loop
+- ✅ Restart immediately when it ends
+- ✅ Play at 30% volume (adjustable in code)
