@@ -37,7 +37,7 @@ export const useSoundEffects = () => {
     // Configure background music with proper looping
     if (bgMusicRef.current) {
       bgMusicRef.current.loop = true;
-      bgMusicRef.current.volume = 0.3;
+      bgMusicRef.current.volume = 0.2; // Lower background music to 20%
       
       // Ensure looping works even if the file doesn't support loop attribute
       bgMusicRef.current.addEventListener('ended', () => {
@@ -48,7 +48,7 @@ export const useSoundEffects = () => {
       });
     }
 
-    // Configure sound effects
+    // Configure sound effects - higher volume to be heard over background music
     [
       battleWinRef.current,
       battleLoseRef.current,
@@ -56,7 +56,7 @@ export const useSoundEffects = () => {
       castleReachRef.current
     ].forEach(audio => {
       if (audio) {
-        audio.volume = 0.5;
+        audio.volume = 0.8; // Higher volume for sound effects (80%)
       }
     });
 
@@ -104,12 +104,15 @@ export const useSoundEffects = () => {
     initializeAudio();
     if (battleWinRef.current) {
       battleWinRef.current.currentTime = 0;
+      console.log('Playing battle win sound...');
       const playPromise = battleWinRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Battle win sound failed:', error);
-        });
+        playPromise
+          .then(() => console.log('Battle win sound played successfully'))
+          .catch(error => console.log('Battle win sound failed:', error));
       }
+    } else {
+      console.log('Battle win audio not initialized');
     }
   };
 
@@ -117,12 +120,15 @@ export const useSoundEffects = () => {
     initializeAudio();
     if (battleLoseRef.current) {
       battleLoseRef.current.currentTime = 0;
+      console.log('Playing battle lose sound...');
       const playPromise = battleLoseRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Battle lose sound failed:', error);
-        });
+        playPromise
+          .then(() => console.log('Battle lose sound played successfully'))
+          .catch(error => console.log('Battle lose sound failed:', error));
       }
+    } else {
+      console.log('Battle lose audio not initialized');
     }
   };
 
@@ -130,12 +136,15 @@ export const useSoundEffects = () => {
     initializeAudio();
     if (gameOverRef.current) {
       gameOverRef.current.currentTime = 0;
+      console.log('Playing game over sound...');
       const playPromise = gameOverRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Game over sound failed:', error);
-        });
+        playPromise
+          .then(() => console.log('Game over sound played successfully'))
+          .catch(error => console.log('Game over sound failed:', error));
       }
+    } else {
+      console.log('Game over audio not initialized');
     }
   };
 
@@ -143,12 +152,15 @@ export const useSoundEffects = () => {
     initializeAudio();
     if (castleReachRef.current) {
       castleReachRef.current.currentTime = 0;
+      console.log('Playing castle reach sound...');
       const playPromise = castleReachRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Castle reach sound failed:', error);
-        });
+        playPromise
+          .then(() => console.log('Castle reach sound played successfully'))
+          .catch(error => console.log('Castle reach sound failed:', error));
       }
+    } else {
+      console.log('Castle reach audio not initialized');
     }
   };
 

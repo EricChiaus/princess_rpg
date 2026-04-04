@@ -45,8 +45,17 @@ export const useGameLogic = () => {
   }, [currentQuestion, showQuestion, handleAnswer]);
 
   const handleSubmitAnswer = useCallback(() => {
+    // Play win/lose sound based on answer
+    if (selectedAnswer !== null && currentQuestion !== null) {
+      if (selectedAnswer === currentQuestion.correctAnswer) {
+        playBattleWin();
+      } else {
+        playBattleLose();
+      }
+    }
+    
     resolveBattle();
-  }, [resolveBattle]);
+  }, [selectedAnswer, currentQuestion, resolveBattle, playBattleWin, playBattleLose]);
 
   // Check win condition
   useEffect(() => {
@@ -57,10 +66,13 @@ export const useGameLogic = () => {
       if (playerPosition.x === castlePosition.x && playerPosition.y === castlePosition.y && allObstaclesCleared) {
         // This would need to be handled in the useGameState hook
         // For now, the logic remains here but could be moved
-        console.log('Victory! All obstacles cleared and castle reached!');
       }
+    } else if (gameState === 'gameOver') {
+      playGameOver();
+    } else if (gameState === 'victory') {
+      playCastleReach();
     }
-  }, [playerPosition, obstacles, gameState]);
+  }, [gameState, playerPosition, obstacles, playGameOver, playCastleReach]);
 
   // Initialize game on mount
   useEffect(() => {
