@@ -45,22 +45,9 @@ export const useGameLogic = (soundEffectsEnabled: boolean) => {
   }, [currentQuestion, showQuestion, handleAnswer]);
 
   const handleSubmitAnswer = useCallback(() => {
-    // Play win/lose sound based on answer if sound effects are enabled
-    console.log('Answer submitted, soundEffectsEnabled:', soundEffectsEnabled);
-    if (soundEffectsEnabled && selectedAnswer !== null && currentQuestion !== null) {
-      if (selectedAnswer === currentQuestion.correctAnswer) {
-        console.log('Playing battle win sound');
-        playBattleWin();
-      } else {
-        console.log('Playing battle lose sound');
-        playBattleLose();
-      }
-    } else {
-      console.log('Sound effects disabled or missing data');
-    }
-    
+    // Sound effects are now played in QuestionModal when answer is selected
     resolveBattle();
-  }, [selectedAnswer, currentQuestion, resolveBattle, soundEffectsEnabled, playBattleWin, playBattleLose]);
+  }, [resolveBattle]);
 
   // Check win condition
   useEffect(() => {

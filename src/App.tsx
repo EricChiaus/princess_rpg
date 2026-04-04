@@ -239,6 +239,9 @@ export default function App() {
         showQuestion={showQuestion}
         onAnswerSelect={handleAnswerSelect}
         onSubmitAnswer={handleSubmitAnswer}
+        playBattleWin={playBattleWin}
+        playBattleLose={playBattleLose}
+        soundEffectsEnabled={soundEffectsEnabled}
       />
 
       {/* Game Over Modal */}
