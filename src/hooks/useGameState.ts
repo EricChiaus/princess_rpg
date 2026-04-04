@@ -129,15 +129,7 @@ export const useGameState = () => {
       const newPosition = obstacle.position;
       setPlayerPosition(newPosition);
       
-      // Check if player can reach castle after moving
-      const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
-      if (isPositionReachable(newPosition, castlePosition, roadPath, obstacles.map(obs => 
-        obs.id === currentBattlingObstacle 
-          ? { ...obs, cleared: true }
-          : obs
-      ))) {
-        setGameState('victory');
-      }
+      // Removed automatic victory check - victory only happens when castle is clicked
     }
 
     if (selectedAnswer === currentQuestion.correctAnswer) {
@@ -157,6 +149,13 @@ export const useGameState = () => {
     setSelectedAnswer(null);
     setCurrentBattlingObstacle(null);
   }, [selectedAnswer, currentQuestion, currentBattlingObstacle, lives, obstacles, roadPath]);
+
+  // Manual victory trigger - only when castle is clicked
+  const triggerVictory = useCallback(() => {
+    if (gameState === 'playing') {
+      setGameState('victory');
+    }
+  }, [gameState]);
 
   // Check if an obstacle can be clicked (reachable)
   const canClickObstacle = useCallback((obstacleId: string): boolean => {
@@ -184,5 +183,6 @@ export const useGameState = () => {
     handleAnswer,
     resolveBattle,
     canClickObstacle,
+    triggerVictory,
   };
 };

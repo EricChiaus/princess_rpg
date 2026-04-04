@@ -17,6 +17,7 @@ export const useGameLogic = (soundEffectsEnabled: boolean) => {
     handleAnswer,
     resolveBattle,
     canClickObstacle,
+    triggerVictory,
   } = useGameState();
 
   const {
@@ -89,5 +90,6 @@ export const useGameLogic = (soundEffectsEnabled: boolean) => {
     handleSubmitAnswer,
     isRoadCell,
     canClickObstacle,
+    triggerVictory,
   };
 };

@@ -38,6 +38,7 @@ export default function App() {
     handleSubmitAnswer,
     isRoadCell,
     canClickObstacle,
+    triggerVictory,
   } = useGameLogic(soundEffectsEnabled);
 
   const {
@@ -106,11 +107,10 @@ export default function App() {
         
         if (hasPathToCastle) {
           playCastleReach();
-          // Trigger victory
-          setTimeout(() => {
-            // This will be handled by the existing victory logic
-            console.log('Castle clicked and reachable!');
-          }, 100);
+          console.log('Castle clicked and reachable! Triggering victory...');
+          triggerVictory(); // Actually trigger victory!
+        } else {
+          console.log('Castle clicked but path is blocked!');
         }
       }
     }
@@ -171,7 +171,7 @@ export default function App() {
           onClick={handleStartGame}
           className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold shadow-lg"
         >
-          {gameState === 'playing' ? 'Reset Game' : 'Start Game'}
+          Reset Game
         </button>
       </div>
 
