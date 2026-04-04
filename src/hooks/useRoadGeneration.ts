@@ -151,8 +151,8 @@ export const generateObstacles = (road: Position[], mainRoad: Position[]): Obsta
     !(pos.x === castlePosition.x && pos.y === castlePosition.y) // Exclude castle position
   );
   
-  // Higher density: place obstacles on 70-90% of available positions
-  const obstacleCount = Math.floor(availablePositions.length * (0.7 + Math.random() * 0.2));
+  // Higher density: place obstacles on 35-45% of available positions (half of previous 70-90%)
+  const obstacleCount = Math.floor(availablePositions.length * (0.35 + Math.random() * 0.1));
   const selectedPositions: Position[] = [];
   
   // Shuffle available positions
@@ -160,12 +160,12 @@ export const generateObstacles = (road: Position[], mainRoad: Position[]): Obsta
   
   // Track treasure chest count to limit them
   let treasureChestCount = 0;
-  const maxTreasureChests = Math.max(1, Math.floor(shuffledPositions.length * 0.1)); // Max 10% treasure chests
+  const maxTreasureChests = Math.max(1, Math.floor(shuffledPositions.length * 0.2)); // Max 20% treasure chests (increased)
   
   for (let i = 0; i < obstacleCount && i < shuffledPositions.length; i++) {
     const position = shuffledPositions[i];
     
-    // Select obstacle type with reduced probability for treasure chests
+    // Select obstacle type with adjusted treasure chest probability
     let obstacleType: ObstacleType;
     
     if (treasureChestCount >= maxTreasureChests) {
@@ -173,18 +173,18 @@ export const generateObstacles = (road: Position[], mainRoad: Position[]): Obsta
       const nonTreasureTypes = obstacleTypes.filter(type => type !== 'treasure');
       obstacleType = nonTreasureTypes[Math.floor(Math.random() * nonTreasureTypes.length)];
     } else {
-      // Normal selection but with lower treasure chest probability
+      // Normal selection but with higher treasure chest probability
       const random = Math.random();
-      if (random < 0.05) { // 5% chance for treasure chest (reduced from 20%)
+      if (random < 0.15) { // 15% chance for treasure chest (increased from 5%)
         obstacleType = 'treasure';
         treasureChestCount++;
-      } else if (random < 0.30) { // 25% chance for stone
+      } else if (random < 0.40) { // 25% chance for stone
         obstacleType = 'stone';
-      } else if (random < 0.55) { // 25% chance for bat
+      } else if (random < 0.65) { // 25% chance for bat
         obstacleType = 'bat';
-      } else if (random < 0.80) { // 25% chance for witch
+      } else if (random < 0.90) { // 25% chance for witch
         obstacleType = 'witch';
-      } else { // 20% chance for monster
+      } else { // 10% chance for monster
         obstacleType = 'monster';
       }
     }
