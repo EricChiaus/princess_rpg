@@ -129,18 +129,15 @@ export const useGameState = () => {
     if (obstacle) {
       const newPosition = obstacle.position;
       setPlayerPosition(newPosition);
-      
-      // Special handling for treasure chests - add a heart
-      if (obstacle.type === 'treasure' && lives < 3) {
-        setLives(prev => Math.min(prev + 1, 3)); // Add heart, max 3 hearts
-        console.log('Treasure chest collected! Gained a heart.');
-      }
-      
-      // Removed automatic victory check - victory only happens when castle is clicked
     }
 
     if (selectedAnswer === currentQuestion.correctAnswer) {
       // Correct answer - no life lost
+      // Special handling for treasure chests - add a heart only when winning
+      if (obstacle && obstacle.type === 'treasure' && lives < 3) {
+        setLives(prev => Math.min(prev + 1, 3)); // Add heart, max 3 hearts
+        console.log('Treasure chest won! Gained a heart.');
+      }
     } else {
       // Wrong answer - lose a life, but not for treasure chests
       if (obstacle && obstacle.type !== 'treasure') {
@@ -151,6 +148,7 @@ export const useGameState = () => {
           setGameState('gameOver');
         }
       }
+      // Treasure chest loss = no effect (no heart added, no heart lost)
     }
 
     setShowQuestion(false);
