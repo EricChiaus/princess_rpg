@@ -127,7 +127,18 @@ export const useGameState = () => {
       // Move player to obstacle position
       const obstacle = obstacles.find(obs => obs.id === currentBattlingObstacle);
       if (obstacle) {
-        setPlayerPosition(obstacle.position);
+        const newPosition = obstacle.position;
+        setPlayerPosition(newPosition);
+        
+        // Check if player can reach castle after moving
+        const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
+        if (isPositionReachable(newPosition, castlePosition, roadPath, obstacles.map(obs => 
+          obs.id === currentBattlingObstacle 
+            ? { ...obs, cleared: true }
+            : obs
+        ))) {
+          setGameState('victory');
+        }
       }
     } else {
       // Wrong answer - lose a life
@@ -143,7 +154,7 @@ export const useGameState = () => {
     setCurrentQuestion(null);
     setSelectedAnswer(null);
     setCurrentBattlingObstacle(null);
-  }, [selectedAnswer, currentQuestion, currentBattlingObstacle, lives, obstacles]);
+  }, [selectedAnswer, currentQuestion, currentBattlingObstacle, lives, obstacles, roadPath]);
 
   // Check if an obstacle can be clicked (reachable)
   const canClickObstacle = useCallback((obstacleId: string): boolean => {
