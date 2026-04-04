@@ -17,14 +17,42 @@ const obstacleDifficulty: Record<string, 'easy' | 'medium' | 'hard' | 'expert' |
 
 // Check if position is reachable from player position along road
 const isPositionReachable = (playerPos: Position, targetPos: Position, road: Position[]): boolean => {
-  const playerIndex = road.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y);
-  const targetIndex = road.findIndex(pos => pos.x === targetPos.x && pos.y === targetPos.y);
+  // Create a set of reachable positions using BFS
+  const reachable = new Set<string>();
+  const queue: Position[] = [playerPos];
+  const visited = new Set<string>();
   
-  // If either position is not on the road, it's not reachable
-  if (playerIndex === -1 || targetIndex === -1) return false;
+  visited.add(`${playerPos.x},${playerPos.y}`);
   
-  // Target is reachable if it's at or after the player position on the road
-  return targetIndex >= playerIndex;
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    const currentKey = `${current.x},${current.y}`;
+    
+    // Add current position to reachable set
+    reachable.add(currentKey);
+    
+    // Find all adjacent road positions
+    const adjacentPositions = [
+      { x: current.x - 1, y: current.y },
+      { x: current.x + 1, y: current.y },
+      { x: current.x, y: current.y - 1 },
+      { x: current.x, y: current.y + 1 }
+    ];
+    
+    for (const adj of adjacentPositions) {
+      const adjKey = `${adj.x},${adj.y}`;
+      
+      // Check if adjacent position is on the road and not visited
+      if (!visited.has(adjKey) && road.some(pos => pos.x === adj.x && pos.y === adj.y)) {
+        visited.add(adjKey);
+        queue.push(adj);
+      }
+    }
+  }
+  
+  // Check if target position is in reachable set
+  const targetKey = `${targetPos.x},${targetPos.y}`;
+  return reachable.has(targetKey);
 };
 
 export const useGameState = () => {
