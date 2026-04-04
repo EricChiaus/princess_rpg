@@ -15,6 +15,18 @@ const obstacleDifficulty: Record<string, 'easy' | 'medium' | 'hard' | 'expert' |
   'monster': 'master'
 };
 
+// Check if position is reachable from player position along road
+const isPositionReachable = (playerPos: Position, targetPos: Position, road: Position[]): boolean => {
+  const playerIndex = road.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y);
+  const targetIndex = road.findIndex(pos => pos.x === targetPos.x && pos.y === targetPos.y);
+  
+  // If either position is not on the road, it's not reachable
+  if (playerIndex === -1 || targetIndex === -1) return false;
+  
+  // Target is reachable if it's at or after the player position on the road
+  return targetIndex >= playerIndex;
+};
+
 export const useGameState = () => {
   const [playerPosition, setPlayerPosition] = useState<Position>({ x: 0, y: GRID_SIZE - 1 });
   const [lives, setLives] = useState(MAX_LIVES);
@@ -27,8 +39,8 @@ export const useGameState = () => {
   const [roadPath, setRoadPath] = useState<Position[]>([]);
 
   const initializeGame = useCallback(() => {
-    const newRoad = generateRandomRoad();
-    const newObstacles = generateObstacles(newRoad);
+    const { road } = generateRandomRoad();
+    const newObstacles = generateObstacles(road);
     
     setPlayerPosition({ x: 0, y: GRID_SIZE - 1 });
     setLives(MAX_LIVES);
@@ -38,19 +50,24 @@ export const useGameState = () => {
     setShowQuestion(false);
     setSelectedAnswer(null);
     setCurrentBattlingObstacle(null);
-    setRoadPath(newRoad);
+    setRoadPath(road);
   }, []);
 
   const startBattle = useCallback((obstacleId: string) => {
     const obstacle = obstacles.find(obs => obs.id === obstacleId);
     if (!obstacle) return;
     
+    // Check if obstacle is reachable
+    if (!isPositionReachable(playerPosition, obstacle.position, roadPath)) {
+      return; // Don't allow battle if not reachable
+    }
+    
     const difficulty = obstacleDifficulty[obstacle.type];
     setCurrentQuestion(generateQuestion(difficulty));
     setCurrentBattlingObstacle(obstacleId);
     setShowQuestion(true);
     setSelectedAnswer(null);
-  }, [obstacles]);
+  }, [obstacles, playerPosition, roadPath]);
 
   const handleAnswer = useCallback((answerIndex: number) => {
     setSelectedAnswer(answerIndex);
@@ -88,6 +105,14 @@ export const useGameState = () => {
     setCurrentBattlingObstacle(null);
   }, [selectedAnswer, currentQuestion, currentBattlingObstacle, lives, obstacles]);
 
+  // Check if an obstacle can be clicked (reachable)
+  const canClickObstacle = useCallback((obstacleId: string): boolean => {
+    const obstacle = obstacles.find(obs => obs.id === obstacleId);
+    if (!obstacle || obstacle.cleared || gameState !== 'playing') return false;
+    
+    return isPositionReachable(playerPosition, obstacle.position, roadPath);
+  }, [obstacles, playerPosition, roadPath, gameState]);
+
   return {
     // State
     playerPosition,
@@ -105,5 +130,6 @@ export const useGameState = () => {
     startBattle,
     handleAnswer,
     resolveBattle,
+    canClickObstacle,
   };
 };

@@ -15,6 +15,7 @@ export const useGameLogic = () => {
     startBattle,
     handleAnswer,
     resolveBattle,
+    canClickObstacle,
   } = useGameState();
 
   const isRoadCell = useCallback((x: number, y: number) => {
@@ -22,11 +23,10 @@ export const useGameLogic = () => {
   }, [roadPath]);
 
   const handleObstacleClick = useCallback((obstacleId: string) => {
-    const obstacle = obstacles.find(obs => obs.id === obstacleId);
-    if (!obstacle || obstacle.cleared || gameState !== 'playing') return;
+    if (!canClickObstacle(obstacleId)) return;
 
     startBattle(obstacleId);
-  }, [obstacles, gameState, startBattle]);
+  }, [canClickObstacle, startBattle]);
 
   const handleAnswerSelect = useCallback((answerIndex: number) => {
     if (currentQuestion === null || showQuestion === false) return;
@@ -74,5 +74,6 @@ export const useGameLogic = () => {
     handleAnswerSelect,
     handleSubmitAnswer,
     isRoadCell,
+    canClickObstacle,
   };
 };

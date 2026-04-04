@@ -32,6 +32,7 @@ export default function App() {
     handleAnswerSelect,
     handleSubmitAnswer,
     isRoadCell,
+    canClickObstacle,
   } = useGameLogic();
 
   return (
@@ -98,8 +99,12 @@ export default function App() {
                   {isCastle && !isPlayer && <div className="absolute inset-0 z-10"><RainbowCastle /></div>}
                   {obstacle && !isPlayer && (
                     <div 
-                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform"
-                      onClick={() => handleObstacleClick(obstacle.id)}
+                      className={`absolute inset-0 z-10 transition-transform ${
+                        canClickObstacle(obstacle.id) 
+                          ? 'cursor-pointer hover:scale-110' 
+                          : 'cursor-not-allowed opacity-60'
+                      }`}
+                      onClick={() => canClickObstacle(obstacle.id) && handleObstacleClick(obstacle.id)}
                     >
                       {obstacle.type === 'stone' && <Stone />}
                       {obstacle.type === 'bat' && <Bat />}

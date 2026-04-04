@@ -2,51 +2,31 @@ import { Position, Obstacle, ObstacleType } from '../types';
 
 const GRID_SIZE = 8;
 
-// Generate random road path with branches
-export const generateRandomRoad = (): Position[] => {
+// Check if a position is adjacent to any position in a set
+const isAdjacentToSet = (pos: Position, positionSet: Set<string>): boolean => {
+  const { x, y } = pos;
+  const adjacentPositions = [
+    `${x-1},${y}`, `${x+1},${y}`, `${x},${y-1}`, `${x},${y+1}`
+  ];
+  
+  return adjacentPositions.some(adjPos => positionSet.has(adjPos));
+};
+
+// Generate random road path with non-adjacent branches
+export const generateRandomRoad = (): { road: Position[], mainRoad: Position[] } => {
   const road: Position[] = [];
+  const mainRoad: Position[] = [];
   let currentX = 0;
   let currentY = GRID_SIZE - 1;
   const visitedPositions = new Set<string>();
+  const mainRoadPositions = new Set<string>();
   
   road.push({ x: currentX, y: currentY });
+  mainRoad.push({ x: currentX, y: currentY });
   visitedPositions.add(`${currentX},${currentY}`);
+  mainRoadPositions.add(`${currentX},${currentY}`);
   
   while (currentX < GRID_SIZE - 1 || currentY > 0) {
-    // Generate branches occasionally
-    if (Math.random() < 0.3 && road.length > 3) {
-      // Create a branch
-      const branchLength = Math.floor(Math.random() * 3) + 2; // 2-4 cells long
-      let branchX = currentX;
-      let branchY = currentY;
-      
-      for (let i = 0; i < branchLength; i++) {
-        // Random direction for branch (avoid going back to main path)
-        const directions = [];
-        if (branchX > 0 && !visitedPositions.has(`${branchX-1},${branchY}`)) directions.push('left');
-        if (branchX < GRID_SIZE - 1 && !visitedPositions.has(`${branchX+1},${branchY}`)) directions.push('right');
-        if (branchY > 0 && !visitedPositions.has(`${branchX},${branchY-1}`)) directions.push('up');
-        if (branchY < GRID_SIZE - 1 && !visitedPositions.has(`${branchX},${branchY+1}`)) directions.push('down');
-        
-        if (directions.length === 0) break;
-        
-        const direction = directions[Math.floor(Math.random() * directions.length)];
-        
-        switch (direction) {
-          case 'left': branchX--; break;
-          case 'right': branchX++; break;
-          case 'up': branchY--; break;
-          case 'down': branchY++; break;
-        }
-        
-        const posKey = `${branchX},${branchY}`;
-        if (!visitedPositions.has(posKey)) {
-          road.push({ x: branchX, y: branchY });
-          visitedPositions.add(posKey);
-        }
-      }
-    }
-    
     // Continue main path toward castle
     const canGoRight = currentX < GRID_SIZE - 1;
     const canGoUp = currentY > 0;
@@ -69,11 +49,92 @@ export const generateRandomRoad = (): Position[] => {
     const posKey = `${currentX},${currentY}`;
     if (!visitedPositions.has(posKey)) {
       road.push({ x: currentX, y: currentY });
+      mainRoad.push({ x: currentX, y: currentY });
       visitedPositions.add(posKey);
+      mainRoadPositions.add(posKey);
     }
   }
   
-  return road;
+  // Generate branches that are not adjacent to main road
+  if (mainRoad.length > 3) {
+    const branchCount = Math.floor(Math.random() * 3) + 1; // 1-3 branches
+    
+    for (let branchIndex = 0; branchIndex < branchCount; branchIndex++) {
+      // Select a random position from main road to branch from
+      const branchStartIndex = Math.floor(Math.random() * (mainRoad.length - 2)) + 1; // Not start or end
+      const branchStart = mainRoad[branchStartIndex];
+      
+      // Find a valid branch starting point (not adjacent to main road)
+      let branchX = branchStart.x;
+      let branchY = branchStart.y;
+      let attempts = 0;
+      const maxAttempts = 10;
+      
+      // Try to find a non-adjacent position for branch
+      while (attempts < maxAttempts) {
+        const directions = [];
+        if (branchX > 1 && !visitedPositions.has(`${branchX-2},${branchY}`) && !isAdjacentToSet({ x: branchX-2, y: branchY }, mainRoadPositions)) {
+          directions.push({ x: -2, y: 0 });
+        }
+        if (branchX < GRID_SIZE - 2 && !visitedPositions.has(`${branchX+2},${branchY}`) && !isAdjacentToSet({ x: branchX+2, y: branchY }, mainRoadPositions)) {
+          directions.push({ x: 2, y: 0 });
+        }
+        if (branchY > 1 && !visitedPositions.has(`${branchX},${branchY-2}`) && !isAdjacentToSet({ x: branchX, y: branchY-2 }, mainRoadPositions)) {
+          directions.push({ x: 0, y: -2 });
+        }
+        if (branchY < GRID_SIZE - 2 && !visitedPositions.has(`${branchX},${branchY+2}`) && !isAdjacentToSet({ x: branchX, y: branchY+2 }, mainRoadPositions)) {
+          directions.push({ x: 0, y: 2 });
+        }
+        
+        if (directions.length === 0) break;
+        
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+        branchX += direction.x;
+        branchY += direction.y;
+        
+        const posKey = `${branchX},${branchY}`;
+        if (!visitedPositions.has(posKey)) {
+          road.push({ x: branchX, y: branchY });
+          visitedPositions.add(posKey);
+          break;
+        }
+        
+        attempts++;
+      }
+      
+      // Extend the branch
+      const branchLength = Math.floor(Math.random() * 3) + 2; // 2-4 cells long
+      for (let i = 1; i < branchLength; i++) {
+        const directions = [];
+        if (branchX > 0 && !visitedPositions.has(`${branchX-1},${branchY}`) && !isAdjacentToSet({ x: branchX-1, y: branchY }, mainRoadPositions)) {
+          directions.push({ x: -1, y: 0 });
+        }
+        if (branchX < GRID_SIZE - 1 && !visitedPositions.has(`${branchX+1},${branchY}`) && !isAdjacentToSet({ x: branchX+1, y: branchY }, mainRoadPositions)) {
+          directions.push({ x: 1, y: 0 });
+        }
+        if (branchY > 0 && !visitedPositions.has(`${branchX},${branchY-1}`) && !isAdjacentToSet({ x: branchX, y: branchY-1 }, mainRoadPositions)) {
+          directions.push({ x: 0, y: -1 });
+        }
+        if (branchY < GRID_SIZE - 1 && !visitedPositions.has(`${branchX},${branchY+1}`) && !isAdjacentToSet({ x: branchX, y: branchY+1 }, mainRoadPositions)) {
+          directions.push({ x: 0, y: 1 });
+        }
+        
+        if (directions.length === 0) break;
+        
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+        branchX += direction.x;
+        branchY += direction.y;
+        
+        const posKey = `${branchX},${branchY}`;
+        if (!visitedPositions.has(posKey)) {
+          road.push({ x: branchX, y: branchY });
+          visitedPositions.add(posKey);
+        }
+      }
+    }
+  }
+  
+  return { road, mainRoad };
 };
 
 // Generate obstacles on road with higher density but reduced treasure chests
