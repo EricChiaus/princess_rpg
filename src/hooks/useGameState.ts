@@ -39,8 +39,8 @@ export const useGameState = () => {
   const [roadPath, setRoadPath] = useState<Position[]>([]);
 
   const initializeGame = useCallback(() => {
-    const { road } = generateRandomRoad();
-    const newObstacles = generateObstacles(road);
+    const { road, mainRoad } = generateRandomRoad();
+    const newObstacles = generateObstacles(road, mainRoad);
     
     setPlayerPosition({ x: 0, y: GRID_SIZE - 1 });
     setLives(MAX_LIVES);

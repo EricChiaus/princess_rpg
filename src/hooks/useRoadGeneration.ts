@@ -64,26 +64,26 @@ export const generateRandomRoad = (): { road: Position[], mainRoad: Position[] }
       const branchStartIndex = Math.floor(Math.random() * (mainRoad.length - 2)) + 1; // Not start or end
       const branchStart = mainRoad[branchStartIndex];
       
-      // Find a valid branch starting point (not adjacent to main road)
+      // Try to find a valid branch starting point (first tile can be adjacent)
       let branchX = branchStart.x;
       let branchY = branchStart.y;
       let attempts = 0;
       const maxAttempts = 10;
       
-      // Try to find a non-adjacent position for branch
+      // Try to find a position for branch
       while (attempts < maxAttempts) {
         const directions = [];
-        if (branchX > 1 && !visitedPositions.has(`${branchX-2},${branchY}`) && !isAdjacentToSet({ x: branchX-2, y: branchY }, mainRoadPositions)) {
-          directions.push({ x: -2, y: 0 });
+        if (branchX > 0 && !visitedPositions.has(`${branchX-1},${branchY}`)) {
+          directions.push({ x: -1, y: 0 });
         }
-        if (branchX < GRID_SIZE - 2 && !visitedPositions.has(`${branchX+2},${branchY}`) && !isAdjacentToSet({ x: branchX+2, y: branchY }, mainRoadPositions)) {
-          directions.push({ x: 2, y: 0 });
+        if (branchX < GRID_SIZE - 1 && !visitedPositions.has(`${branchX+1},${branchY}`)) {
+          directions.push({ x: 1, y: 0 });
         }
-        if (branchY > 1 && !visitedPositions.has(`${branchX},${branchY-2}`) && !isAdjacentToSet({ x: branchX, y: branchY-2 }, mainRoadPositions)) {
-          directions.push({ x: 0, y: -2 });
+        if (branchY > 0 && !visitedPositions.has(`${branchX},${branchY-1}`)) {
+          directions.push({ x: 0, y: -1 });
         }
-        if (branchY < GRID_SIZE - 2 && !visitedPositions.has(`${branchX},${branchY+2}`) && !isAdjacentToSet({ x: branchX, y: branchY+2 }, mainRoadPositions)) {
-          directions.push({ x: 0, y: 2 });
+        if (branchY < GRID_SIZE - 1 && !visitedPositions.has(`${branchX},${branchY+1}`)) {
+          directions.push({ x: 0, y: 1 });
         }
         
         if (directions.length === 0) break;
@@ -102,7 +102,7 @@ export const generateRandomRoad = (): { road: Position[], mainRoad: Position[] }
         attempts++;
       }
       
-      // Extend the branch
+      // Extend the branch (subsequent tiles cannot be adjacent to main road)
       const branchLength = Math.floor(Math.random() * 3) + 2; // 2-4 cells long
       for (let i = 1; i < branchLength; i++) {
         const directions = [];
@@ -138,12 +138,18 @@ export const generateRandomRoad = (): { road: Position[], mainRoad: Position[] }
 };
 
 // Generate obstacles on road with higher density but reduced treasure chests
-export const generateObstacles = (road: Position[]): Obstacle[] => {
+export const generateObstacles = (road: Position[], mainRoad: Position[]): Obstacle[] => {
   const obstacleTypes: ObstacleType[] = ['stone', 'bat', 'witch', 'monster', 'treasure'];
   const obstacles: Obstacle[] = [];
   
-  // Place obstacles on almost all road positions (except start)
-  const availablePositions = road.slice(1); // Exclude start position
+  // Find castle position (last position on main road)
+  const castlePosition = mainRoad[mainRoad.length - 1];
+  
+  // Place obstacles on almost all road positions (except start and castle)
+  const availablePositions = road.filter(pos => 
+    !(pos.x === 0 && pos.y === 7) && // Exclude start position
+    !(pos.x === castlePosition.x && pos.y === castlePosition.y) // Exclude castle position
+  );
   
   // Higher density: place obstacles on 70-90% of available positions
   const obstacleCount = Math.floor(availablePositions.length * (0.7 + Math.random() * 0.2));
