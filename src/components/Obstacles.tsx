@@ -3,21 +3,34 @@ import React from 'react';
 const Stone: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
+      {/* Shadow */}
+      <ellipse cx="50" cy="82" rx="30" ry="7" fill="#1f2937" opacity="0.2"/>
       {/* Main rock */}
-      <ellipse cx="50" cy="50" rx="35" ry="25" fill="#6b7280" stroke="#374151" strokeWidth="3"/>
-      {/* Rock texture */}
-      <ellipse cx="40" cy="45" rx="12" ry="8" fill="#4b5563"/>
-      <ellipse cx="60" cy="55" rx="10" ry="6" fill="#4b5563"/>
-      <ellipse cx="45" cy="60" rx="8" ry="5" fill="#374151"/>
+      <ellipse cx="50" cy="58" rx="36" ry="28" fill="#9ca3af" stroke="#4b5563" strokeWidth="2.5"/>
+      {/* Highlight */}
+      <ellipse cx="37" cy="47" rx="14" ry="9" fill="#e5e7eb" opacity="0.65"/>
+      {/* Darker underside */}
+      <ellipse cx="57" cy="68" rx="12" ry="7" fill="#6b7280" opacity="0.4"/>
       {/* Cracks */}
-      <path d="M30 40 L35 55 L40 65" fill="none" stroke="#1f2937" strokeWidth="2"/>
-      <path d="M65 35 L60 50 L55 60" fill="none" stroke="#1f2937" strokeWidth="2"/>
-      {/* Moss */}
-      <ellipse cx="25" cy="50" rx="8" ry="4" fill="#10b981" opacity="0.7"/>
-      <ellipse cx="75" cy="45" rx="6" ry="3" fill="#10b981" opacity="0.7"/>
-      {/* Small stones */}
-      <circle cx="35" cy="70" r="5" fill="#6b7280" stroke="#374151" strokeWidth="2"/>
-      <circle cx="65" cy="30" r="4" fill="#6b7280" stroke="#374151" strokeWidth="2"/>
+      <path d="M42 50 L45 62 L41 72" fill="none" stroke="#374151" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M61 52 L58 64" fill="none" stroke="#374151" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Moss patches */}
+      <ellipse cx="22" cy="63" rx="9" ry="5" fill="#4ade80" opacity="0.8"/>
+      <ellipse cx="32" cy="72" rx="7" ry="4" fill="#22c55e" opacity="0.7"/>
+      <ellipse cx="71" cy="57" rx="6" ry="3.5" fill="#4ade80" opacity="0.65"/>
+      {/* Cute eyes */}
+      <circle cx="43" cy="55" r="4" fill="#1f2937"/>
+      <circle cx="57" cy="55" r="4" fill="#1f2937"/>
+      <circle cx="44.5" cy="53.5" r="1.5" fill="#ffffff"/>
+      <circle cx="58.5" cy="53.5" r="1.5" fill="#ffffff"/>
+      {/* Rosy cheeks */}
+      <ellipse cx="38" cy="61" rx="5" ry="3" fill="#fca5a5" opacity="0.55"/>
+      <ellipse cx="62" cy="61" rx="5" ry="3" fill="#fca5a5" opacity="0.55"/>
+      {/* Smile */}
+      <path d="M44 63 Q50 69 56 63" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round"/>
+      {/* Small pebbles */}
+      <ellipse cx="24" cy="76" rx="7" ry="5" fill="#9ca3af" stroke="#4b5563" strokeWidth="1.5"/>
+      <ellipse cx="74" cy="74" rx="6" ry="4" fill="#9ca3af" stroke="#4b5563" strokeWidth="1.5"/>
     </svg>
   </div>
 );
@@ -25,30 +38,51 @@ const Stone: React.FC = () => (
 const Bat: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Bat body */}
-      <ellipse cx="50" cy="50" rx="15" ry="20" fill="#1f2937" stroke="#111827" strokeWidth="3"/>
-      {/* Bat wings */}
-      <path d="M35 45 Q10 30 5 45 Q10 55 35 50" fill="#374151" stroke="#111827" strokeWidth="3"/>
-      <path d="M65 45 Q90 30 95 45 Q90 55 65 50" fill="#374151" stroke="#111827" strokeWidth="3"/>
-      {/* Wing details */}
-      <path d="M25 40 Q15 35 10 40" fill="none" stroke="#111827" strokeWidth="2"/>
-      <path d="M75 40 Q85 35 90 40" fill="none" stroke="#111827" strokeWidth="2"/>
-      {/* Bat head */}
-      <circle cx="50" cy="30" r="12" fill="#1f2937" stroke="#111827" strokeWidth="3"/>
+      {/* Shadow */}
+      <ellipse cx="50" cy="92" rx="22" ry="5" fill="#111827" opacity="0.15"/>
+      {/* Left wing */}
+      <path d="M36 54 Q18 30 5 42 Q8 58 22 60 Q29 61 36 57" fill="#4b5563" stroke="#1f2937" strokeWidth="2"/>
+      {/* Left wing membrane lines */}
+      <path d="M36 54 Q18 30 5 42" fill="none" stroke="#374151" strokeWidth="1.2"/>
+      <path d="M34 51 Q20 33 12 39" fill="none" stroke="#374151" strokeWidth="1"/>
+      <path d="M32 55 Q24 40 17 44" fill="none" stroke="#374151" strokeWidth="1"/>
+      {/* Right wing */}
+      <path d="M64 54 Q82 30 95 42 Q92 58 78 60 Q71 61 64 57" fill="#4b5563" stroke="#1f2937" strokeWidth="2"/>
+      {/* Right wing membrane lines */}
+      <path d="M64 54 Q82 30 95 42" fill="none" stroke="#374151" strokeWidth="1.2"/>
+      <path d="M66 51 Q80 33 88 39" fill="none" stroke="#374151" strokeWidth="1"/>
+      <path d="M68 55 Q76 40 83 44" fill="none" stroke="#374151" strokeWidth="1"/>
+      {/* Body */}
+      <ellipse cx="50" cy="70" rx="13" ry="17" fill="#1f2937" stroke="#111827" strokeWidth="2"/>
+      {/* Belly */}
+      <ellipse cx="50" cy="73" rx="7" ry="10" fill="#374151"/>
+      {/* Head */}
+      <circle cx="50" cy="48" r="19" fill="#1f2937" stroke="#111827" strokeWidth="2"/>
       {/* Ears */}
-      <path d="M40 25 L38 15 L45 22" fill="#1f2937" stroke="#111827" strokeWidth="2"/>
-      <path d="M60 25 L62 15 L55 22" fill="#1f2937" stroke="#111827" strokeWidth="2"/>
-      {/* Eyes */}
-      <circle cx="44" cy="28" r="3" fill="#ef4444"/>
-      <circle cx="56" cy="28" r="3" fill="#ef4444"/>
-      <circle cx="45" cy="27" r="1" fill="#ffffff"/>
-      <circle cx="57" cy="27" r="1" fill="#ffffff"/>
-      {/* Fangs */}
-      <path d="M47 35 L46 40 L48 35" fill="#ffffff"/>
-      <path d="M53 35 L52 40 L54 35" fill="#ffffff"/>
-      {/* Wing claws */}
-      <circle cx="5" cy="45" r="2" fill="#ef4444"/>
-      <circle cx="95" cy="45" r="2" fill="#ef4444"/>
+      <path d="M35 38 L30 18 L44 32" fill="#1f2937" stroke="#111827" strokeWidth="1.5"/>
+      <path d="M65 38 L70 18 L56 32" fill="#1f2937" stroke="#111827" strokeWidth="1.5"/>
+      {/* Pink inner ears */}
+      <path d="M36 36 L33 21 L43 30" fill="#f9a8d4" opacity="0.75"/>
+      <path d="M64 36 L67 21 L57 30" fill="#f9a8d4" opacity="0.75"/>
+      {/* Big cute eyes */}
+      <circle cx="41" cy="46" r="9" fill="#ffffff" stroke="#111827" strokeWidth="1.5"/>
+      <circle cx="59" cy="46" r="9" fill="#ffffff" stroke="#111827" strokeWidth="1.5"/>
+      <circle cx="42" cy="47" r="5.5" fill="#dc2626"/>
+      <circle cx="60" cy="47" r="5.5" fill="#dc2626"/>
+      <circle cx="42" cy="47" r="3" fill="#111827"/>
+      <circle cx="60" cy="47" r="3" fill="#111827"/>
+      {/* Eye shine */}
+      <circle cx="43.5" cy="45" r="1.8" fill="#ffffff"/>
+      <circle cx="61.5" cy="45" r="1.8" fill="#ffffff"/>
+      {/* Blush */}
+      <ellipse cx="34" cy="55" rx="4.5" ry="2.5" fill="#fca5a5" opacity="0.6"/>
+      <ellipse cx="66" cy="55" rx="4.5" ry="2.5" fill="#fca5a5" opacity="0.6"/>
+      {/* Cute fangs */}
+      <path d="M45 57 L43 64 L47 57" fill="#ffffff"/>
+      <path d="M55 57 L53 64 L57 57" fill="#ffffff"/>
+      {/* Wing thumb tips */}
+      <circle cx="5" cy="42" r="3" fill="#374151"/>
+      <circle cx="95" cy="42" r="3" fill="#374151"/>
     </svg>
   </div>
 );
@@ -56,36 +90,60 @@ const Bat: React.FC = () => (
 const Witch: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Witch body */}
-      <rect x="40" y="50" width="20" height="30" fill="#4c1d95" stroke="#2e1065" strokeWidth="3" rx="5"/>
-      {/* Witch dress */}
-      <path d="M35 70 Q50 85 65 70 L60 50 L40 50 Z" fill="#6b21a8" stroke="#2e1065" strokeWidth="3"/>
-      {/* Witch head */}
-      <circle cx="50" cy="30" r="15" fill="#86efac" stroke="#16a34a" strokeWidth="3"/>
-      {/* Witch hat */}
-      <path d="M35 30 L50 5 L65 30" fill="#1e293b" stroke="#0f172a" strokeWidth="3"/>
-      <path d="M40 30 L50 15 L60 30" fill="#475569" stroke="#0f172a" strokeWidth="2"/>
+      {/* Shadow */}
+      <ellipse cx="50" cy="95" rx="25" ry="5" fill="#1f2937" opacity="0.15"/>
+      {/* Dress bottom */}
+      <path d="M28 68 Q50 92 72 68 L66 46 L34 46 Z" fill="#7c3aed" stroke="#4c1d95" strokeWidth="2"/>
+      {/* Dress shimmer */}
+      <path d="M36 68 Q50 85 64 68 L60 53 L40 53 Z" fill="#a78bfa" opacity="0.35"/>
+      {/* Star on dress */}
+      <path d="M43 72 L44.5 67 L46 72 L41 69 L48 69 Z" fill="#fbbf24" opacity="0.85"/>
+      <path d="M56 77 L57.5 72 L59 77 L54 74 L61 74 Z" fill="#fbbf24" opacity="0.85"/>
+      {/* Body */}
+      <rect x="37" y="46" width="26" height="24" fill="#5b21b6" stroke="#4c1d95" strokeWidth="2" rx="5"/>
+      {/* Collar trim */}
+      <path d="M37 51 Q50 56 63 51" fill="none" stroke="#a78bfa" strokeWidth="2"/>
+      {/* Hands */}
+      <circle cx="31" cy="54" r="6.5" fill="#bbf7d0" stroke="#4ade80" strokeWidth="1.5"/>
+      <circle cx="69" cy="54" r="6.5" fill="#bbf7d0" stroke="#4ade80" strokeWidth="1.5"/>
+      {/* Head */}
+      <circle cx="50" cy="32" r="17" fill="#bbf7d0" stroke="#4ade80" strokeWidth="2"/>
+      {/* Hat brim */}
+      <ellipse cx="50" cy="20" rx="23" ry="5.5" fill="#1e293b" stroke="#0f172a" strokeWidth="2"/>
+      {/* Hat body */}
+      <path d="M37 20 L44 2 L56 2 L63 20 Z" fill="#1e293b" stroke="#0f172a" strokeWidth="2"/>
+      {/* Hat highlight streak */}
+      <path d="M44 18 L48 6" fill="none" stroke="#475569" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Hat band */}
+      <rect x="38" y="15" width="24" height="5" fill="#7c3aed" rx="1"/>
       {/* Hat buckle */}
-      <rect x="48" y="25" width="4" height="4" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1"/>
-      {/* Eyes */}
-      <circle cx="44" cy="28" r="2" fill="#1f2937"/>
-      <circle cx="56" cy="28" r="2" fill="#1f2937"/>
-      {/* Wart */}
-      <circle cx="60" cy="32" r="2" fill="#16a34a"/>
-      {/* Nose */}
-      <path d="M50 35 L48 38" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/>
-      {/* Mouth */}
-      <path d="M45 40 Q50 43 55 40" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/>
-      {/* Broom */}
-      <rect x="65" y="60" width="4" height="25" fill="#92400e" stroke="#451a03" strokeWidth="2"/>
-      <path d="M69 60 Q85 55 90 65 Q85 70 69 65" fill="#fbbf24" stroke="#92400e" strokeWidth="2"/>
+      <rect x="46.5" y="14" width="7" height="7" fill="#fbbf24" stroke="#d97706" strokeWidth="1" rx="1"/>
+      {/* Star on hat tip */}
+      <path d="M50 3 L51.4 7.2 L55.8 7.2 L52.2 9.8 L53.6 14 L50 11.4 L46.4 14 L47.8 9.8 L44.2 7.2 L48.6 7.2 Z" fill="#fbbf24"/>
+      {/* Cute eyes */}
+      <circle cx="44" cy="31" r="4.5" fill="#1f2937"/>
+      <circle cx="56" cy="31" r="4.5" fill="#1f2937"/>
+      <circle cx="45.5" cy="29.5" r="1.8" fill="#ffffff"/>
+      <circle cx="57.5" cy="29.5" r="1.8" fill="#ffffff"/>
+      {/* Rosy cheeks */}
+      <ellipse cx="39" cy="37" rx="5" ry="2.8" fill="#fca5a5" opacity="0.6"/>
+      <ellipse cx="61" cy="37" rx="5" ry="2.8" fill="#fca5a5" opacity="0.6"/>
+      {/* Tiny nose */}
+      <circle cx="50" cy="36" r="1.8" fill="#86efac"/>
+      {/* Smile */}
+      <path d="M44 41 Q50 46 56 41" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round"/>
+      {/* Broom handle */}
+      <rect x="66" y="54" width="4" height="38" fill="#a16207" stroke="#713f12" strokeWidth="1.5" rx="2"/>
+      {/* Broom head */}
+      <ellipse cx="76" cy="58" rx="13" ry="5.5" fill="#ca8a04" stroke="#92400e" strokeWidth="1.5"/>
       {/* Broom bristles */}
-      <path d="M85 55 L88 50 L90 55" fill="#f59e0b"/>
-      <path d="M87 57 L90 52 L92 57" fill="#f59e0b"/>
-      <path d="M86 59 L89 54 L91 59" fill="#f59e0b"/>
-      {/* Witch hands */}
-      <circle cx="38" cy="55" r="4" fill="#86efac" stroke="#16a34a" strokeWidth="2"/>
-      <circle cx="62" cy="55" r="4" fill="#86efac" stroke="#16a34a" strokeWidth="2"/>
+      <path d="M64 61 L61 73 L67 65" fill="#92400e" stroke="#713f12" strokeWidth="1"/>
+      <path d="M68 63 L65 75 L70 67" fill="#92400e" stroke="#713f12" strokeWidth="1"/>
+      <path d="M72 64 L69 76 L74 68" fill="#92400e" stroke="#713f12" strokeWidth="1"/>
+      <path d="M76 64 L73 76 L78 68" fill="#92400e" stroke="#713f12" strokeWidth="1"/>
+      {/* Ambient sparkles */}
+      <path d="M18 22 L19.5 17 L21 22 L26 23.5 L21 25 L19.5 30 L18 25 L13 23.5 Z" fill="#fbbf24" opacity="0.8"/>
+      <path d="M82 18 L83 15 L84 18 L87 19 L84 20 L83 23 L82 20 L79 19 Z" fill="#a78bfa" opacity="0.85"/>
     </svg>
   </div>
 );
@@ -93,43 +151,63 @@ const Witch: React.FC = () => (
 const Monster: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Monster body */}
-      <ellipse cx="50" cy="55" rx="30" ry="25" fill="#86efac" stroke="#16a34a" strokeWidth="3"/>
-      {/* Monster spikes */}
-      <path d="M30 50 L25 35 L35 45" fill="#16a34a"/>
-      <path d="M70 50 L75 35 L65 45" fill="#16a34a"/>
-      <path d="M50 40 L45 25 L55 35" fill="#16a34a"/>
-      <path d="M40 45 L35 30 L45 40" fill="#16a34a"/>
-      <path d="M60 45 L65 30 L55 40" fill="#16a34a"/>
-      {/* Monster head */}
-      <ellipse cx="50" cy="35" rx="25" ry="20" fill="#86efac" stroke="#16a34a" strokeWidth="3"/>
-      {/* Monster eyes */}
-      <circle cx="40" cy="30" r="8" fill="#ffffff" stroke="#16a34a" strokeWidth="3"/>
-      <circle cx="60" cy="30" r="8" fill="#ffffff" stroke="#16a34a" strokeWidth="3"/>
-      <circle cx="40" cy="30" r="4" fill="#ef4444"/>
-      <circle cx="60" cy="30" r="4" fill="#ef4444"/>
-      <circle cx="41" cy="28" r="2" fill="#1f2937"/>
-      <circle cx="61" cy="28" r="2" fill="#1f2937"/>
-      {/* Monster mouth */}
-      <path d="M35 45 Q50 55 65 45" fill="#ef4444" stroke="#16a34a" strokeWidth="3"/>
-      {/* Monster teeth */}
-      <rect x="42" y="45" width="4" height="6" fill="#ffffff" stroke="#16a34a" strokeWidth="2"/>
-      <rect x="48" y="45" width="4" height="6" fill="#ffffff" stroke="#16a34a" strokeWidth="2"/>
-      <rect x="54" y="45" width="4" height="6" fill="#ffffff" stroke="#16a34a" strokeWidth="2"/>
-      {/* Monster arms */}
-      <ellipse cx="25" cy="50" rx="8" ry="15" fill="#86efac" stroke="#16a34a" strokeWidth="3" transform="rotate(-30 25 50)"/>
-      <ellipse cx="75" cy="50" rx="8" ry="15" fill="#86efac" stroke="#16a34a" strokeWidth="3" transform="rotate(30 75 50)"/>
-      {/* Monster claws */}
-      <circle cx="20" cy="60" r="3" fill="#16a34a"/>
-      <circle cx="80" cy="60" r="3" fill="#16a34a"/>
-      <circle cx="18" cy="55" r="2" fill="#16a34a"/>
-      <circle cx="82" cy="55" r="2" fill="#16a34a"/>
-      {/* Monster legs */}
-      <rect x="35" y="75" width="8" height="15" fill="#86efac" stroke="#16a34a" strokeWidth="3" rx="4"/>
-      <rect x="57" y="75" width="8" height="15" fill="#86efac" stroke="#16a34a" strokeWidth="3" rx="4"/>
-      {/* Monster feet */}
-      <ellipse cx="39" cy="90" rx="6" ry="4" fill="#16a34a"/>
-      <ellipse cx="61" cy="90" rx="6" ry="4" fill="#16a34a"/>
+      {/* Shadow */}
+      <ellipse cx="50" cy="95" rx="28" ry="5" fill="#1f2937" opacity="0.15"/>
+      {/* Legs */}
+      <ellipse cx="38" cy="84" rx="9" ry="11" fill="#34d399" stroke="#059669" strokeWidth="2"/>
+      <ellipse cx="62" cy="84" rx="9" ry="11" fill="#34d399" stroke="#059669" strokeWidth="2"/>
+      {/* Feet */}
+      <ellipse cx="36" cy="93" rx="12" ry="5" fill="#059669"/>
+      <ellipse cx="64" cy="93" rx="12" ry="5" fill="#059669"/>
+      {/* Toe nubs */}
+      <circle cx="27" cy="93" r="2.5" fill="#047857"/>
+      <circle cx="36" cy="96" r="2.5" fill="#047857"/>
+      <circle cx="45" cy="93" r="2.5" fill="#047857"/>
+      <circle cx="55" cy="93" r="2.5" fill="#047857"/>
+      <circle cx="64" cy="96" r="2.5" fill="#047857"/>
+      <circle cx="73" cy="93" r="2.5" fill="#047857"/>
+      {/* Body */}
+      <ellipse cx="50" cy="63" rx="30" ry="25" fill="#4ade80" stroke="#16a34a" strokeWidth="2.5"/>
+      {/* Belly */}
+      <ellipse cx="50" cy="66" rx="17" ry="14" fill="#bbf7d0" opacity="0.7"/>
+      {/* Body spots */}
+      <circle cx="29" cy="58" r="4.5" fill="#22c55e" opacity="0.5"/>
+      <circle cx="71" cy="61" r="4" fill="#22c55e" opacity="0.5"/>
+      <circle cx="37" cy="74" r="3" fill="#22c55e" opacity="0.4"/>
+      {/* Arms */}
+      <ellipse cx="19" cy="63" rx="10" ry="15" fill="#4ade80" stroke="#16a34a" strokeWidth="2" transform="rotate(-20 19 63)"/>
+      <ellipse cx="81" cy="63" rx="10" ry="15" fill="#4ade80" stroke="#16a34a" strokeWidth="2" transform="rotate(20 81 63)"/>
+      {/* Claws */}
+      <path d="M11 70 L8 76 L13 72" fill="#059669"/>
+      <path d="M15 74 L12 80 L17 76" fill="#059669"/>
+      <path d="M89 70 L92 76 L87 72" fill="#059669"/>
+      <path d="M85 74 L88 80 L83 76" fill="#059669"/>
+      {/* Head */}
+      <ellipse cx="50" cy="38" rx="28" ry="24" fill="#4ade80" stroke="#16a34a" strokeWidth="2.5"/>
+      {/* Head bumps */}
+      <ellipse cx="34" cy="21" rx="7" ry="5" fill="#22c55e" stroke="#16a34a" strokeWidth="1.5" transform="rotate(-20 34 21)"/>
+      <ellipse cx="50" cy="17" rx="7" ry="5" fill="#22c55e" stroke="#16a34a" strokeWidth="1.5"/>
+      <ellipse cx="66" cy="21" rx="7" ry="5" fill="#22c55e" stroke="#16a34a" strokeWidth="1.5" transform="rotate(20 66 21)"/>
+      {/* Big cute eyes */}
+      <circle cx="38" cy="36" r="11" fill="#ffffff" stroke="#16a34a" strokeWidth="2"/>
+      <circle cx="62" cy="36" r="11" fill="#ffffff" stroke="#16a34a" strokeWidth="2"/>
+      <circle cx="39" cy="37" r="6.5" fill="#f97316"/>
+      <circle cx="63" cy="37" r="6.5" fill="#f97316"/>
+      <circle cx="39" cy="37" r="3.5" fill="#1f2937"/>
+      <circle cx="63" cy="37" r="3.5" fill="#1f2937"/>
+      {/* Eye shine */}
+      <circle cx="41" cy="34.5" r="2.2" fill="#ffffff"/>
+      <circle cx="65" cy="34.5" r="2.2" fill="#ffffff"/>
+      {/* Blush */}
+      <ellipse cx="29" cy="44" rx="5.5" ry="3" fill="#fca5a5" opacity="0.6"/>
+      <ellipse cx="71" cy="44" rx="5.5" ry="3" fill="#fca5a5" opacity="0.6"/>
+      {/* Mouth */}
+      <path d="M36 50 Q50 62 64 50" fill="#ef4444" stroke="#16a34a" strokeWidth="2"/>
+      {/* Teeth */}
+      <rect x="43" y="50" width="5" height="6" fill="#ffffff" rx="1.5"/>
+      <rect x="50" y="50" width="5" height="6" fill="#ffffff" rx="1.5"/>
+      {/* Tongue */}
+      <ellipse cx="50" cy="57" rx="6" ry="3.5" fill="#fb7185"/>
     </svg>
   </div>
 );
@@ -137,34 +215,56 @@ const Monster: React.FC = () => (
 const TreasureBox: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Treasure box base */}
-      <rect x="20" y="50" width="60" height="40" fill="#92400e" stroke="#451a03" strokeWidth="4" rx="5"/>
-      {/* Box details */}
-      <rect x="25" y="55" width="50" height="30" fill="#78350f" stroke="#451a03" strokeWidth="2" rx="3"/>
-      {/* Metal bands */}
-      <rect x="20" y="60" width="60" height="5" fill="#fbbf24" stroke="#f59e0b" strokeWidth="2"/>
-      <rect x="20" y="75" width="60" height="5" fill="#fbbf24" stroke="#f59e0b" strokeWidth="2"/>
-      {/* Box lid */}
-      <path d="M20 50 Q50 30 80 50" fill="#fbbf24" stroke="#451a03" strokeWidth="4"/>
-      <path d="M25 50 Q50 35 75 50" fill="#f59e0b" stroke="#451a03" strokeWidth="2"/>
-      {/* Lock */}
-      <rect x="45" y="60" width="10" height="12" fill="#1f2937" stroke="#111827" strokeWidth="3" rx="2"/>
-      <circle cx="50" cy="55" r="4" fill="#fbbf24" stroke="#f59e0b" strokeWidth="2"/>
-      <circle cx="50" cy="55" r="2" fill="#1f2937"/>
+      {/* Shadow */}
+      <ellipse cx="50" cy="95" rx="33" ry="5" fill="#1f2937" opacity="0.15"/>
+      {/* Box base */}
+      <rect x="13" y="55" width="74" height="40" fill="#b45309" stroke="#451a03" strokeWidth="3" rx="6"/>
+      {/* Wood grain lines */}
+      <line x1="29" y1="58" x2="29" y2="92" stroke="#92400e" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="50" y1="58" x2="50" y2="92" stroke="#92400e" strokeWidth="1.2" opacity="0.6"/>
+      <line x1="71" y1="58" x2="71" y2="92" stroke="#92400e" strokeWidth="1.2" opacity="0.6"/>
+      {/* Inner shade */}
+      <rect x="18" y="60" width="64" height="30" fill="#92400e" rx="3"/>
+      {/* Gold bands */}
+      <rect x="13" y="63" width="74" height="7" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5"/>
+      <rect x="13" y="79" width="74" height="7" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5"/>
+      {/* Rivets */}
+      <circle cx="21" cy="66.5" r="2.5" fill="#d97706"/>
+      <circle cx="79" cy="66.5" r="2.5" fill="#d97706"/>
+      <circle cx="21" cy="82.5" r="2.5" fill="#d97706"/>
+      <circle cx="79" cy="82.5" r="2.5" fill="#d97706"/>
+      {/* Lid */}
+      <path d="M13 55 Q50 22 87 55" fill="#ca8a04" stroke="#451a03" strokeWidth="3"/>
+      <path d="M17 54 Q50 26 83 54" fill="#eab308" stroke="#a16207" strokeWidth="1.5"/>
+      {/* Lid wood grain */}
+      <path d="M32 48 Q50 30 68 48" fill="none" stroke="#a16207" strokeWidth="1" opacity="0.55"/>
+      <path d="M24 52 Q50 28 76 52" fill="none" stroke="#a16207" strokeWidth="1" opacity="0.35"/>
+      {/* Gems on lid */}
+      <circle cx="34" cy="45" r="6" fill="#3b82f6" stroke="#1d4ed8" strokeWidth="1.5"/>
+      <circle cx="66" cy="45" r="6" fill="#ef4444" stroke="#b91c1c" strokeWidth="1.5"/>
+      <circle cx="50" cy="34" r="7" fill="#a855f7" stroke="#7e22ce" strokeWidth="1.5"/>
+      {/* Gem highlights */}
+      <circle cx="32.5" cy="43" r="2" fill="#bfdbfe" opacity="0.8"/>
+      <circle cx="64.5" cy="43" r="2" fill="#fecaca" opacity="0.8"/>
+      <circle cx="48.5" cy="32" r="2.5" fill="#e9d5ff" opacity="0.8"/>
+      {/* Lock plate */}
+      <rect x="42" y="62" width="16" height="18" fill="#374151" stroke="#1f2937" strokeWidth="2" rx="3"/>
+      {/* Lock ring */}
+      <circle cx="50" cy="67" r="5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5"/>
+      <circle cx="50" cy="67" r="2.5" fill="#1f2937"/>
       {/* Keyhole */}
-      <path d="M50 57 Q48 59 48 62 Q48 65 50 65 Q52 65 52 62 Q52 59 50 57" fill="#1f2937"/>
-      {/* Treasure sparkles */}
-      <circle cx="30" cy="40" r="4" fill="#fbbf24" className="animate-sparkle"/>
-      <circle cx="70" cy="40" r="4" fill="#fbbf24" className="animate-sparkle"/>
-      <circle cx="50" cy="25" r="4" fill="#fbbf24" className="animate-sparkle"/>
-      <circle cx="35" cy="30" r="3" fill="#10b981" className="animate-sparkle"/>
-      <circle cx="65" cy="30" r="3" fill="#10b981" className="animate-sparkle"/>
-      <circle cx="25" cy="50" r="2" fill="#ef4444" className="animate-sparkle"/>
-      <circle cx="75" cy="50" r="2" fill="#ef4444" className="animate-sparkle"/>
-      {/* Gold coins peeking out */}
-      <circle cx="35" cy="48" r="3" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1"/>
-      <circle cx="65" cy="48" r="3" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1"/>
-      <circle cx="50" cy="45" r="3" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1"/>
+      <path d="M50 69.5 L47.5 75 L50 76 L52.5 75 Z" fill="#1f2937"/>
+      {/* Coins peeking from lid gap */}
+      <ellipse cx="37" cy="55" rx="5.5" ry="3" fill="#fbbf24" stroke="#d97706" strokeWidth="1"/>
+      <ellipse cx="50" cy="54" rx="5.5" ry="3" fill="#fbbf24" stroke="#d97706" strokeWidth="1"/>
+      <ellipse cx="63" cy="55" rx="5.5" ry="3" fill="#fbbf24" stroke="#d97706" strokeWidth="1"/>
+      {/* Sparkles */}
+      <path d="M18 28 L19.5 23 L21 28 L26 29.5 L21 31 L19.5 36 L18 31 L13 29.5 Z" fill="#fbbf24"/>
+      <path d="M80 25 L81 22 L82 25 L85 26 L82 27 L81 30 L80 27 L77 26 Z" fill="#fbbf24"/>
+      <path d="M50 13 L51 10 L52 13 L55 14 L52 15 L51 18 L50 15 L47 14 Z" fill="#a855f7"/>
+      {/* Sparkle dots */}
+      <circle cx="30" cy="18" r="2.5" fill="#fbbf24" opacity="0.85"/>
+      <circle cx="72" cy="16" r="2" fill="#ef4444" opacity="0.85"/>
     </svg>
   </div>
 );
