@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import './App.css';
 import { 
   PrincessUnicorn, 
@@ -49,6 +50,23 @@ export default function App() {
     initializeGame();
     playBackgroundMusic();
   };
+
+  // Initialize audio on first user interaction
+  useEffect(() => {
+    const handleFirstClick = () => {
+      playBackgroundMusic();
+      document.removeEventListener('click', handleFirstClick);
+    };
+
+    // Start background music on first user interaction if game is already playing
+    if (gameState === 'playing') {
+      document.addEventListener('click', handleFirstClick, { once: true });
+    }
+
+    return () => {
+      document.removeEventListener('click', handleFirstClick);
+    };
+  }, [gameState, playBackgroundMusic]);
 
   const handleCastleClick = () => {
     if (gameState === 'playing') {
@@ -103,7 +121,7 @@ export default function App() {
           onClick={handleStartGame}
           className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold shadow-lg"
         >
-          Start Game
+          {gameState === 'playing' ? 'Reset Game' : 'Start Game'}
         </button>
       </div>
 

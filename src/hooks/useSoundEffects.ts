@@ -6,6 +6,7 @@ export const useSoundEffects = () => {
   const battleLoseRef = useRef<HTMLAudioElement | null>(null);
   const gameOverRef = useRef<HTMLAudioElement | null>(null);
   const castleReachRef = useRef<HTMLAudioElement | null>(null);
+  const isAudioInitialized = useRef(false);
 
   useEffect(() => {
     // Initialize audio elements - support both MP3 and WAV formats
@@ -21,6 +22,7 @@ export const useSoundEffects = () => {
         audioRef.current.addEventListener('error', () => {
           console.log(`MP3 not found, trying WAV: ${wavFile}`);
           audioRef.current!.src = `/sounds/${wavFile}`;
+          audioRef.current!.load();
         }, { once: true });
       }
     };
@@ -37,17 +39,11 @@ export const useSoundEffects = () => {
       bgMusicRef.current.loop = true;
       bgMusicRef.current.volume = 0.3;
       
-      // Preload the audio
-      bgMusicRef.current.load();
-      
       // Ensure looping works even if the file doesn't support loop attribute
       bgMusicRef.current.addEventListener('ended', () => {
         if (bgMusicRef.current) {
           bgMusicRef.current.currentTime = 0;
-          bgMusicRef.current.play().catch(() => {
-            // Handle autoplay restrictions
-            console.log('Background music requires user interaction to start');
-          });
+          bgMusicRef.current.play().catch(() => {});
         }
       });
     }
@@ -61,7 +57,6 @@ export const useSoundEffects = () => {
     ].forEach(audio => {
       if (audio) {
         audio.volume = 0.5;
-        audio.load(); // Preload sound effects
       }
     });
 
@@ -76,22 +71,26 @@ export const useSoundEffects = () => {
     };
   }, []);
 
-  const playBackgroundMusic = () => {
-    if (bgMusicRef.current) {
-      // Make sure audio is loaded before playing
-      if (bgMusicRef.current.readyState === 0) {
-        bgMusicRef.current.load();
-      }
+  const initializeAudio = () => {
+    if (!isAudioInitialized.current) {
+      // Load all audio files
+      bgMusicRef.current?.load();
+      battleWinRef.current?.load();
+      battleLoseRef.current?.load();
+      gameOverRef.current?.load();
+      castleReachRef.current?.load();
       
+      isAudioInitialized.current = true;
+    }
+  };
+
+  const playBackgroundMusic = () => {
+    initializeAudio();
+    if (bgMusicRef.current) {
       const playPromise = bgMusicRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch(error => {
           console.log('Background music play failed:', error);
-          // Try to play on user interaction
-          document.addEventListener('click', function playOnce() {
-            bgMusicRef.current?.play().catch(() => {});
-            document.removeEventListener('click', playOnce);
-          }, { once: true });
         });
       }
     }
@@ -102,32 +101,73 @@ export const useSoundEffects = () => {
   };
 
   const playBattleWin = () => {
+    initializeAudio();
     if (battleWinRef.current) {
       battleWinRef.current.currentTime = 0;
-      battleWinRef.current.play().catch(() => {});
+      const playPromise = battleWinRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Battle win sound failed:', error);
+        });
+      }
     }
   };
 
   const playBattleLose = () => {
+    initializeAudio();
     if (battleLoseRef.current) {
       battleLoseRef.current.currentTime = 0;
-      battleLoseRef.current.play().catch(() => {});
+      const playPromise = battleLoseRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Battle lose sound failed:', error);
+        });
+      }
     }
   };
 
   const playGameOver = () => {
+    initializeAudio();
     if (gameOverRef.current) {
       gameOverRef.current.currentTime = 0;
-      gameOverRef.current.play().catch(() => {});
+      const playPromise = gameOverRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Game over sound failed:', error);
+        });
+      }
     }
   };
 
   const playCastleReach = () => {
+    initializeAudio();
     if (castleReachRef.current) {
       castleReachRef.current.currentTime = 0;
-      castleReachRef.current.play().catch(() => {});
+      const playPromise = castleReachRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Castle reach sound failed:', error);
+        });
+      }
     }
   };
+
+  // Auto-initialize on first user interaction
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      initializeAudio();
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    document.addEventListener('click', handleFirstInteraction, { once: true });
+    document.addEventListener('keydown', handleFirstInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, []);
 
   return {
     playBackgroundMusic,
