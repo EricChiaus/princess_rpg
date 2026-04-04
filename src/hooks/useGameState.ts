@@ -116,30 +116,32 @@ export const useGameState = () => {
   const resolveBattle = useCallback(() => {
     if (selectedAnswer === null || currentQuestion === null || currentBattlingObstacle === null) return;
 
-    if (selectedAnswer === currentQuestion.correctAnswer) {
-      // Correct answer - clear obstacle and move player
-      setObstacles(prev => prev.map(obs => 
+    // Always clear the obstacle and move player (regardless of win/lose)
+    setObstacles(prev => prev.map(obs => 
+      obs.id === currentBattlingObstacle 
+        ? { ...obs, cleared: true }
+        : obs
+    ));
+    
+    // Move player to obstacle position
+    const obstacle = obstacles.find(obs => obs.id === currentBattlingObstacle);
+    if (obstacle) {
+      const newPosition = obstacle.position;
+      setPlayerPosition(newPosition);
+      
+      // Check if player can reach castle after moving
+      const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
+      if (isPositionReachable(newPosition, castlePosition, roadPath, obstacles.map(obs => 
         obs.id === currentBattlingObstacle 
           ? { ...obs, cleared: true }
           : obs
-      ));
-      
-      // Move player to obstacle position
-      const obstacle = obstacles.find(obs => obs.id === currentBattlingObstacle);
-      if (obstacle) {
-        const newPosition = obstacle.position;
-        setPlayerPosition(newPosition);
-        
-        // Check if player can reach castle after moving
-        const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
-        if (isPositionReachable(newPosition, castlePosition, roadPath, obstacles.map(obs => 
-          obs.id === currentBattlingObstacle 
-            ? { ...obs, cleared: true }
-            : obs
-        ))) {
-          setGameState('victory');
-        }
+      ))) {
+        setGameState('victory');
       }
+    }
+
+    if (selectedAnswer === currentQuestion.correctAnswer) {
+      // Correct answer - no life lost
     } else {
       // Wrong answer - lose a life
       const newLives = lives - 1;

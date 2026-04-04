@@ -26,6 +26,10 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
 
   const handleAnswerClick = (index: number) => {
     // Play sound effect immediately when answer is selected
+    console.log('Answer clicked:', index, 'Correct answer:', currentQuestion.correctAnswer);
+    console.log('Sound effects enabled:', soundEffectsEnabled);
+    console.log('Sound functions available:', !!playBattleWin, !!playBattleLose);
+    
     if (soundEffectsEnabled && playBattleWin && playBattleLose) {
       if (index === currentQuestion.correctAnswer) {
         console.log('Playing battle win sound on answer selection');
@@ -34,6 +38,8 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
         console.log('Playing battle lose sound on answer selection');
         playBattleLose();
       }
+    } else {
+      console.log('Sound effects disabled or functions not available');
     }
     
     onAnswerSelect(index);
