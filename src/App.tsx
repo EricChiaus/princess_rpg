@@ -13,7 +13,6 @@ import {
   VictoryModal
 } from './components';
 import { useGameLogic } from './hooks/useGameLogic';
-import { useSoundEffects } from './hooks/useSoundEffects';
 
 // Game constants
 const GRID_SIZE = 8;
@@ -36,16 +35,6 @@ export default function App() {
     canClickObstacle,
   } = useGameLogic();
 
-  const {
-    playBackgroundMusic,
-    stopBackgroundMusic,
-    playBattleStart,
-    playBattleWin,
-    playBattleLose,
-    playGameOver,
-    playCastleReach,
-  } = useSoundEffects();
-
   const handleCastleClick = () => {
     if (gameState === 'playing') {
       const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
@@ -59,7 +48,6 @@ export default function App() {
         });
         
         if (hasPathToCastle) {
-          playCastleReach();
           // Trigger victory
           setTimeout(() => {
             // This will be handled by the existing victory logic
