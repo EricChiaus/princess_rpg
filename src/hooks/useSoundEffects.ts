@@ -30,9 +30,9 @@ export const useSoundEffects = () => {
     // Apply WAV fallbacks (no battle-start sound anymore)
     tryWavFallback(bgMusicRef, 'background-music.wav');
     tryWavFallback(battleWinRef, 'battle-win.wav');
-    tryWavFallback(battleLoseRef, 'battle-lose.wav');
+    tryWavFallback(battleLoseRef, 'battle_lose.wav'); // Note: underscore, not hyphen
     tryWavFallback(gameOverRef, 'game-over.wav');
-    tryWavFallback(castleReachRef, 'castle-reach.wav');
+    tryWavFallback(castleReachRef, 'castle_reach.wav'); // Note: underscore, not hyphen
 
     // Configure background music with proper looping
     if (bgMusicRef.current) {
