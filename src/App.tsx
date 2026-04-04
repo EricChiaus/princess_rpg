@@ -1,5 +1,17 @@
 import './App.css';
-import { PrincessUnicorn, RainbowCastle, Stone, Bat, Witch, Monster, TreasureBox, Heart } from './components';
+import { 
+  PrincessUnicorn, 
+  RainbowCastle, 
+  Stone, 
+  Bat, 
+  Witch, 
+  Monster, 
+  TreasureBox, 
+  Heart,
+  QuestionModal,
+  GameOverModal,
+  VictoryModal
+} from './components';
 import { useGameLogic } from './hooks/useGameLogic';
 
 // Game constants
@@ -104,86 +116,23 @@ export default function App() {
       </div>
 
       {/* Question Modal */}
-      {showQuestion && currentQuestion && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h2 className="text-2xl font-bold text-center mb-4">Math Question!</h2>
-            <p className="text-xl text-center mb-6">{currentQuestion.question}</p>
-            <div className="grid grid-cols-2 gap-3">
-              {currentQuestion.answers.map((answer, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerSelect(index)}
-                  className={`p-3 rounded-lg font-bold transition-colors ${
-                    selectedAnswer === index
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
-                  }`}
-                  disabled={selectedAnswer !== null}
-                >
-                  {answer}
-                </button>
-              ))}
-            </div>
-            {selectedAnswer !== null && (
-              <div className="mt-4 text-center">
-                <p className={`text-lg font-bold mb-3 ${
-                  selectedAnswer === currentQuestion.correctAnswer 
-                    ? 'text-green-600' 
-                    : 'text-red-600'
-                }`}>
-                  {selectedAnswer === currentQuestion.correctAnswer ? 'Correct! 🎉' : 'Wrong! Try again! �'}
-                </p>
-                <button
-                  onClick={handleSubmitAnswer}
-                  className="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold"
-                >
-                  {selectedAnswer === currentQuestion.correctAnswer ? 'Continue' : 'OK'}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <QuestionModal
+        currentQuestion={currentQuestion}
+        selectedAnswer={selectedAnswer}
+        showQuestion={showQuestion}
+        onAnswerSelect={handleAnswerSelect}
+        onSubmitAnswer={handleSubmitAnswer}
+      />
 
       {/* Game Over Modal */}
       {gameState === 'gameOver' && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
-            <h2 className="text-3xl font-bold text-red-600 mb-4">Game Over! 😢</h2>
-            <p className="text-lg mb-6">You ran out of lives. Try again!</p>
-            <button
-              onClick={initializeGame}
-              className="px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold"
-            >
-              Play Again
-            </button>
-          </div>
-        </div>
+        <GameOverModal onPlayAgain={initializeGame} />
       )}
 
       {/* Victory Modal */}
       {gameState === 'victory' && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
-            <h2 className="text-3xl font-bold text-green-600 mb-4">Victory! 🎉</h2>
-            <p className="text-lg mb-6">Congratulations! You reached the castle!</p>
-            <button
-              onClick={initializeGame}
-              className="px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold"
-            >
-              Play Again
-            </button>
-          </div>
-        </div>
+        <VictoryModal onPlayAgain={initializeGame} />
       )}
-
-      {/* Instructions */}
-      <div className="relative z-20 mt-4 text-center text-white pb-4">
-        <p className="text-sm">Click on obstacles along the yellow road to battle!</p>
-        <p className="text-sm">Answer math questions to clear the path to the castle!</p>
-        <p className="text-sm">Clear all obstacles to reach the rainbow castle! 🏰</p>
-      </div>
     </div>
   );
 }
