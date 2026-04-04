@@ -1,36 +1,88 @@
 import React from 'react';
 
-const Stone: React.FC = () => (
+const Spider: React.FC = () => (
   <div className="relative w-full h-full">
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Shadow */}
-      <ellipse cx="50" cy="82" rx="30" ry="7" fill="#1f2937" opacity="0.2"/>
-      {/* Main rock */}
-      <ellipse cx="50" cy="58" rx="36" ry="28" fill="#9ca3af" stroke="#4b5563" strokeWidth="2.5"/>
-      {/* Highlight */}
-      <ellipse cx="37" cy="47" rx="14" ry="9" fill="#e5e7eb" opacity="0.65"/>
-      {/* Darker underside */}
-      <ellipse cx="57" cy="68" rx="12" ry="7" fill="#6b7280" opacity="0.4"/>
-      {/* Cracks */}
-      <path d="M42 50 L45 62 L41 72" fill="none" stroke="#374151" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M61 52 L58 64" fill="none" stroke="#374151" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Moss patches */}
-      <ellipse cx="22" cy="63" rx="9" ry="5" fill="#4ade80" opacity="0.8"/>
-      <ellipse cx="32" cy="72" rx="7" ry="4" fill="#22c55e" opacity="0.7"/>
-      <ellipse cx="71" cy="57" rx="6" ry="3.5" fill="#4ade80" opacity="0.65"/>
-      {/* Cute eyes */}
-      <circle cx="43" cy="55" r="4" fill="#1f2937"/>
-      <circle cx="57" cy="55" r="4" fill="#1f2937"/>
-      <circle cx="44.5" cy="53.5" r="1.5" fill="#ffffff"/>
-      <circle cx="58.5" cy="53.5" r="1.5" fill="#ffffff"/>
-      {/* Rosy cheeks */}
-      <ellipse cx="38" cy="61" rx="5" ry="3" fill="#fca5a5" opacity="0.55"/>
-      <ellipse cx="62" cy="61" rx="5" ry="3" fill="#fca5a5" opacity="0.55"/>
-      {/* Smile */}
-      <path d="M44 63 Q50 69 56 63" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round"/>
-      {/* Small pebbles */}
-      <ellipse cx="24" cy="76" rx="7" ry="5" fill="#9ca3af" stroke="#4b5563" strokeWidth="1.5"/>
-      <ellipse cx="74" cy="74" rx="6" ry="4" fill="#9ca3af" stroke="#4b5563" strokeWidth="1.5"/>
+      <defs>
+        <style>
+          {`
+            @keyframes webGlow {
+              0%, 100% { opacity: 0.6; }
+              50% { opacity: 1; }
+            }
+            @keyframes spiderWiggle {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(-2deg); }
+              75% { transform: rotate(2deg); }
+            }
+            .web-strand { animation: webGlow 3s ease-in-out infinite; }
+            .spider-body { animation: spiderWiggle 2s ease-in-out infinite; transform-origin: center; }
+          `}
+        </style>
+      </defs>
+      
+      {/* Spider web background */}
+      <g className="web-strand">
+        {/* Main web strands */}
+        <line x1="50" y1="15" x2="20" y2="35" stroke="#e5e7eb" strokeWidth="2" opacity="0.8"/>
+        <line x1="50" y1="15" x2="80" y2="35" stroke="#e5e7eb" strokeWidth="2" opacity="0.8"/>
+        <line x1="50" y1="15" x2="30" y2="65" stroke="#e5e7eb" strokeWidth="2" opacity="0.8"/>
+        <line x1="50" y1="15" x2="70" y2="65" stroke="#e5e7eb" strokeWidth="2" opacity="0.8"/>
+        <line x1="50" y1="15" x2="50" y2="75" stroke="#e5e7eb" strokeWidth="2" opacity="0.8"/>
+        
+        {/* Circular web strands */}
+        <circle cx="50" cy="15" r="15" fill="none" stroke="#e5e7eb" strokeWidth="1.5" opacity="0.7"/>
+        <circle cx="50" cy="15" r="25" fill="none" stroke="#e5e7eb" strokeWidth="1.5" opacity="0.6"/>
+        <circle cx="50" cy="15" r="35" fill="none" stroke="#e5e7eb" strokeWidth="1.5" opacity="0.5"/>
+        <circle cx="50" cy="15" r="45" fill="none" stroke="#e5e7eb" strokeWidth="1.5" opacity="0.4"/>
+        
+        {/* Decorative web dots */}
+        <circle cx="35" cy="30" r="2" fill="#f3f4f6" opacity="0.8"/>
+        <circle cx="65" cy="30" r="2" fill="#f3f4f6" opacity="0.8"/>
+        <circle cx="40" cy="50" r="2" fill="#f3f4f6" opacity="0.8"/>
+        <circle cx="60" cy="50" r="2" fill="#f3f4f6" opacity="0.8"/>
+        <circle cx="50" cy="60" r="2" fill="#f3f4f6" opacity="0.8"/>
+      </g>
+      
+      {/* Cute spider */}
+      <g className="spider-body">
+        {/* Shadow */}
+        <ellipse cx="50" cy="85" rx="18" ry="4" fill="#1f2937" opacity="0.2"/>
+        
+        {/* Spider body */}
+        <ellipse cx="50" cy="65" rx="16" ry="13" fill="#8b4513" stroke="#654321" strokeWidth="2"/>
+        <ellipse cx="50" cy="56" rx="11" ry="9" fill="#a0522d" stroke="#654321" strokeWidth="2"/>
+        
+        {/* Cute eyes */}
+        <circle cx="46" cy="54" r="3.5" fill="white"/>
+        <circle cx="54" cy="54" r="3.5" fill="white"/>
+        <circle cx="46" cy="55" r="2" fill="black"/>
+        <circle cx="54" cy="55" r="2" fill="black"/>
+        <circle cx="47" cy="53" r="1" fill="white"/>
+        <circle cx="55" cy="53" r="1" fill="white"/>
+        
+        {/* Cute smile */}
+        <path d="M 46 60 Q 50 63, 54 60" stroke="black" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        
+        {/* Spider legs */}
+        <g stroke="#654321" strokeWidth="2.5" strokeLinecap="round">
+          {/* Left legs */}
+          <line x1="38" y1="62" x2="25" y2="52"/>
+          <line x1="38" y1="66" x2="20" y2="66"/>
+          <line x1="38" y1="70" x2="25" y2="80"/>
+          <line x1="42" y1="74" x2="35" y2="90"/>
+          
+          {/* Right legs */}
+          <line x1="62" y1="62" x2="75" y2="52"/>
+          <line x1="62" y1="66" x2="80" y2="66"/>
+          <line x1="62" y1="70" x2="75" y2="80"/>
+          <line x1="58" y1="74" x2="65" y2="90"/>
+        </g>
+        
+        {/* Cute bow on head */}
+        <path d="M 45 50 L 47 47 L 50 50 L 53 47 L 55 50 L 53 52 L 47 52 Z" fill="#ec4899" stroke="#be185d" strokeWidth="1"/>
+        <circle cx="50" cy="49" r="1.5" fill="#f9a8d4"/>
+      </g>
     </svg>
   </div>
 );
@@ -278,4 +330,4 @@ const Heart: React.FC<{ filled?: boolean }> = ({ filled = true }) => (
   </svg>
 );
 
-export { Stone, Bat, Witch, Monster, TreasureBox, Heart };
+export { Spider, Bat, Witch, Monster, TreasureBox, Heart };

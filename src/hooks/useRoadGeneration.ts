@@ -139,7 +139,7 @@ export const generateRandomRoad = (): { road: Position[], mainRoad: Position[] }
 
 // Generate obstacles on road with higher density but reduced treasure chests
 export const generateObstacles = (road: Position[], mainRoad: Position[]): Obstacle[] => {
-  const obstacleTypes: ObstacleType[] = ['stone', 'bat', 'witch', 'monster', 'treasure'];
+  const obstacleTypes: ObstacleType[] = ['spider', 'bat', 'witch', 'monster', 'treasure'];
   const obstacles: Obstacle[] = [];
   
   // Find castle position (last position on main road)
@@ -178,8 +178,8 @@ export const generateObstacles = (road: Position[], mainRoad: Position[]): Obsta
       if (random < 0.15) { // 15% chance for treasure chest (increased from 5%)
         obstacleType = 'treasure';
         treasureChestCount++;
-      } else if (random < 0.40) { // 25% chance for stone
-        obstacleType = 'stone';
+      } else if (random < 0.40) { // 25% chance for spider
+        obstacleType = 'spider';
       } else if (random < 0.65) { // 25% chance for bat
         obstacleType = 'bat';
       } else if (random < 0.90) { // 25% chance for witch

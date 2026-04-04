@@ -1,5 +1,5 @@
 export type Position = { x: number; y: number };
-export type ObstacleType = 'stone' | 'bat' | 'witch' | 'monster' | 'treasure';
+export type ObstacleType = 'spider' | 'bat' | 'witch' | 'monster' | 'treasure';
 export type GameState = 'playing' | 'gameOver' | 'victory';
 
 export interface Obstacle {

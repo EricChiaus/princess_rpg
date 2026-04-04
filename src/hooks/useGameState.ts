@@ -8,7 +8,7 @@ const MAX_LIVES = 3;
 
 // Map obstacle types to difficulty levels
 const obstacleDifficulty: Record<string, 'easy' | 'medium' | 'hard' | 'expert' | 'master'> = {
-  'stone': 'easy',
+  'spider': 'easy',
   'bat': 'medium', 
   'witch': 'hard',
   'treasure': 'expert',

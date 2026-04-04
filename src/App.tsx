@@ -2,7 +2,7 @@ import './App.css';
 import { 
   PrincessUnicorn, 
   RainbowCastle, 
-  Stone, 
+  Spider, 
   Bat, 
   Witch, 
   Monster, 
@@ -106,7 +106,7 @@ export default function App() {
                       }`}
                       onClick={() => canClickObstacle(obstacle.id) && handleObstacleClick(obstacle.id)}
                     >
-                      {obstacle.type === 'stone' && <Stone />}
+                      {obstacle.type === 'spider' && <Spider />}
                       {obstacle.type === 'bat' && <Bat />}
                       {obstacle.type === 'witch' && <Witch />}
                       {obstacle.type === 'monster' && <Monster />}
