@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 export const useSoundEffects = () => {
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
-  const battleStartRef = useRef<HTMLAudioElement | null>(null);
   const battleWinRef = useRef<HTMLAudioElement | null>(null);
   const battleLoseRef = useRef<HTMLAudioElement | null>(null);
   const gameOverRef = useRef<HTMLAudioElement | null>(null);
@@ -11,7 +10,6 @@ export const useSoundEffects = () => {
   useEffect(() => {
     // Initialize audio elements - support both MP3 and WAV formats
     bgMusicRef.current = new Audio('/sounds/background-music.mp3');
-    battleStartRef.current = new Audio('/sounds/battle-start.mp3');
     battleWinRef.current = new Audio('/sounds/battle-win.mp3');
     battleLoseRef.current = new Audio('/sounds/battle-lose.mp3');
     gameOverRef.current = new Audio('/sounds/game-over.mp3');
@@ -27,9 +25,8 @@ export const useSoundEffects = () => {
       }
     };
 
-    // Apply WAV fallbacks
+    // Apply WAV fallbacks (no battle-start sound anymore)
     tryWavFallback(bgMusicRef, 'background-music.wav');
-    tryWavFallback(battleStartRef, 'battle-start.wav');
     tryWavFallback(battleWinRef, 'battle-win.wav');
     tryWavFallback(battleLoseRef, 'battle-lose.wav');
     tryWavFallback(gameOverRef, 'game-over.wav');
@@ -39,6 +36,9 @@ export const useSoundEffects = () => {
     if (bgMusicRef.current) {
       bgMusicRef.current.loop = true;
       bgMusicRef.current.volume = 0.3;
+      
+      // Preload the audio
+      bgMusicRef.current.load();
       
       // Ensure looping works even if the file doesn't support loop attribute
       bgMusicRef.current.addEventListener('ended', () => {
@@ -54,7 +54,6 @@ export const useSoundEffects = () => {
 
     // Configure sound effects
     [
-      battleStartRef.current,
       battleWinRef.current,
       battleLoseRef.current,
       gameOverRef.current,
@@ -62,6 +61,7 @@ export const useSoundEffects = () => {
     ].forEach(audio => {
       if (audio) {
         audio.volume = 0.5;
+        audio.load(); // Preload sound effects
       }
     });
 
@@ -69,7 +69,6 @@ export const useSoundEffects = () => {
       // Cleanup
       bgMusicRef.current?.pause();
       bgMusicRef.current = null;
-      battleStartRef.current = null;
       battleWinRef.current = null;
       battleLoseRef.current = null;
       gameOverRef.current = null;
@@ -79,10 +78,22 @@ export const useSoundEffects = () => {
 
   const playBackgroundMusic = () => {
     if (bgMusicRef.current) {
-      bgMusicRef.current.play().catch(() => {
-        // Handle autoplay restrictions
-        console.log('Background music requires user interaction to start');
-      });
+      // Make sure audio is loaded before playing
+      if (bgMusicRef.current.readyState === 0) {
+        bgMusicRef.current.load();
+      }
+      
+      const playPromise = bgMusicRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Background music play failed:', error);
+          // Try to play on user interaction
+          document.addEventListener('click', function playOnce() {
+            bgMusicRef.current?.play().catch(() => {});
+            document.removeEventListener('click', playOnce);
+          }, { once: true });
+        });
+      }
     }
   };
 
@@ -90,30 +101,37 @@ export const useSoundEffects = () => {
     bgMusicRef.current?.pause();
   };
 
-  const playBattleStart = () => {
-    battleStartRef.current?.play().catch(() => {});
-  };
-
   const playBattleWin = () => {
-    battleWinRef.current?.play().catch(() => {});
+    if (battleWinRef.current) {
+      battleWinRef.current.currentTime = 0;
+      battleWinRef.current.play().catch(() => {});
+    }
   };
 
   const playBattleLose = () => {
-    battleLoseRef.current?.play().catch(() => {});
+    if (battleLoseRef.current) {
+      battleLoseRef.current.currentTime = 0;
+      battleLoseRef.current.play().catch(() => {});
+    }
   };
 
   const playGameOver = () => {
-    gameOverRef.current?.play().catch(() => {});
+    if (gameOverRef.current) {
+      gameOverRef.current.currentTime = 0;
+      gameOverRef.current.play().catch(() => {});
+    }
   };
 
   const playCastleReach = () => {
-    castleReachRef.current?.play().catch(() => {});
+    if (castleReachRef.current) {
+      castleReachRef.current.currentTime = 0;
+      castleReachRef.current.play().catch(() => {});
+    }
   };
 
   return {
     playBackgroundMusic,
     stopBackgroundMusic,
-    playBattleStart,
     playBattleWin,
     playBattleLose,
     playGameOver,

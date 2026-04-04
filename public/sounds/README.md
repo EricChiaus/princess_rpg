@@ -13,15 +13,7 @@ Download these royalty-free sound effects and place them in this directory:
   - "Magical Forest" ambient
   - "Princess Theme" instrumental
 
-### 2. Battle Start
-- **File:** `battle-start.mp3` OR `battle-start.wav`
-- **Type:** Short sound effect (1-2 seconds)
-- **Suggestions:**
-  - Magic sparkle
-  - Battle horn
-  - Challenge accepted sound
-
-### 3. Battle Win
+### 2. Battle Win
 - **File:** `battle-win.mp3` OR `battle-win.wav`
 - **Type:** Victory sound (2-3 seconds)
 - **Suggestions:**
@@ -29,7 +21,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Magic win sound
   - Positive fanfare
 
-### 4. Battle Lose
+### 3. Battle Lose
 - **File:** `battle-lose.mp3` OR `battle-lose.wav`
 - **Type:** Defeat sound (2-3 seconds)
 - **Suggestions:**
@@ -37,7 +29,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Wrong answer buzz
   - Defeat sound effect
 
-### 5. Game Over
+### 4. Game Over
 - **File:** `game-over.mp3` OR `game-over.wav`
 - **Type:** Game over music/sound (3-5 seconds)
 - **Suggestions:**
@@ -45,7 +37,7 @@ Download these royalty-free sound effects and place them in this directory:
   - Sad melody
   - Defeat fanfare
 
-### 6. Castle Reach
+### 5. Castle Reach
 - **File:** `castle-reach.mp3` OR `castle-reach.wav`
 - **Type:** Victory/achievement sound (2-4 seconds)
 - **Suggestions:**
@@ -95,7 +87,6 @@ Download these royalty-free sound effects and place them in this directory:
 
 Make sure files are named exactly (either MP3 or WAV extension):
 - `background-music.mp3` or `background-music.wav`
-- `battle-start.mp3` or `battle-start.wav`
 - `battle-win.mp3` or `battle-win.wav`
 - `battle-lose.mp3` or `battle-lose.wav`
 - `game-over.mp3` or `game-over.wav`
@@ -112,7 +103,7 @@ Once all files are in place:
 ## Testing
 
 Test each sound by:
-1. Starting a battle (battle-start)
+1. Starting the game (background music should start)
 2. Answering correctly (battle-win)
 3. Answering incorrectly (battle-lose)
 4. Losing all lives (game-over)
@@ -126,3 +117,10 @@ The background music will:
 - ✅ Have fallback manual looping for files that don't support loop
 - ✅ Restart immediately when it ends
 - ✅ Play at 30% volume (adjustable in code)
+- ✅ Start when user clicks "Start Game" button
+
+## Sound Effects
+
+- **No battle start sound** - Removed for faster gameplay
+- **Win/lose sounds only** - Play based on answer correctness
+- **Immediate feedback** - Sounds play right when answer is submitted

@@ -22,7 +22,6 @@ export const useGameLogic = () => {
   const {
     playBackgroundMusic,
     stopBackgroundMusic,
-    playBattleStart,
     playBattleWin,
     playBattleLose,
     playGameOver,
@@ -36,9 +35,8 @@ export const useGameLogic = () => {
   const handleObstacleClick = useCallback((obstacleId: string) => {
     if (!canClickObstacle(obstacleId)) return;
 
-    playBattleStart();
     startBattle(obstacleId);
-  }, [canClickObstacle, startBattle, playBattleStart]);
+  }, [canClickObstacle, startBattle]);
 
   const handleAnswerSelect = useCallback((answerIndex: number) => {
     if (currentQuestion === null || showQuestion === false) return;

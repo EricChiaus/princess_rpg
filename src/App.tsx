@@ -39,7 +39,6 @@ export default function App() {
   const {
     playBackgroundMusic,
     stopBackgroundMusic,
-    playBattleStart,
     playBattleWin,
     playBattleLose,
     playGameOver,
