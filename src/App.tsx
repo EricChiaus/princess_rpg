@@ -53,7 +53,7 @@ export default function App() {
 
       {/* Header */}
       <div className="relative z-20 flex flex-col items-center pt-4 pb-2">
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">Princess Unicorn Adventure</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">Princess Elvia Adventure</h1>
         <div className="flex justify-center gap-2 mb-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="w-8 h-8">
