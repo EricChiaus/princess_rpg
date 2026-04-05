@@ -25,16 +25,6 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Copy built files to root
-      run: |
-        cp dist/assets/index.js index.js
-        cp dist/assets/index.css index.css
-
-    - name: Update index.html for GitHub Pages
-      run: |
-        sed -i 's|href="/dist/assets/index.css"|href="index.css"|g' index.html
-        sed -i 's|src="/dist/assets/index.js"|src="index.js"|g' index.html
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/master'
