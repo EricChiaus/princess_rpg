@@ -11,7 +11,7 @@ export const useSoundEffects = () => {
   useEffect(() => {
     // Initialize audio elements using import.meta.env.BASE_URL so paths
     // work on GitHub Pages (where the site lives under a subpath).
-    const base = import.meta.env.BASE_URL;
+    const base = (import.meta as any).env?.BASE_URL || '/';
     bgMusicRef.current = new Audio(`${base}sounds/background-music.mp3`);
     battleWinRef.current = new Audio(`${base}sounds/battle-win.wav`);
     battleLoseRef.current = new Audio(`${base}sounds/battle_lose.wav`);
