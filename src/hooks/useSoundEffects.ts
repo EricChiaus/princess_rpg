@@ -1,4 +1,7 @@
 import { useEffect, useRef } from 'react';
+import { RefObject } from 'react';
+
+type AudioRef = RefObject<HTMLAudioElement>;
 
 export const useSoundEffects = () => {
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
@@ -17,7 +20,7 @@ export const useSoundEffects = () => {
     castleReachRef.current = new Audio('/sounds/castle-reach.mp3');
 
     // Try WAV fallback if MP3 doesn't exist
-    const tryWavFallback = (audioRef: React.RefObject<HTMLAudioElement>, wavFile: string) => {
+    const tryWavFallback = (audioRef: AudioRef, wavFile: string) => {
       if (audioRef.current) {
         audioRef.current.addEventListener('error', () => {
           console.log(`MP3 not found, trying WAV: ${wavFile}`);
