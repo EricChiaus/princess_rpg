@@ -39,8 +39,9 @@ jobs:
 
     - name: Copy assets to root
       run: |
+        ls -la dist/
         cp -r dist/* .
-        cp -r public/* .
+        ls -la sounds/
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
