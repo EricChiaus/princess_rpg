@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { 
   PrincessUnicorn, 
@@ -38,15 +38,15 @@ export default function App() {
     handleSubmitAnswer,
     isRoadCell,
     canClickObstacle,
+    canClickCastle,
     triggerVictory,
+    playBattleWin,
+    playBattleLose,
   } = useGameLogic(soundEffectsEnabled);
 
   const {
     playBackgroundMusic,
     stopBackgroundMusic,
-    playBattleWin,
-    playBattleLose,
-    playGameOver,
     playCastleReach,
   } = useSoundEffects();
 
@@ -94,38 +94,9 @@ export default function App() {
   }, [gameState, bgMusicEnabled, playBackgroundMusic]);
 
   const handleCastleClick = () => {
-    console.log('Castle clicked!');
-    
-    if (gameState === 'playing') {
-      const castlePosition = { x: 7, y: 0 }; // GRID_SIZE - 1, 0
-      console.log('Game state:', gameState, 'Castle position:', castlePosition);
-      
-      // Check if player can reach castle
-      if (isRoadCell(castlePosition.x, castlePosition.y)) {
-        console.log('Castle is on road');
-        
-        // Check if path is clear (no uncleared obstacles blocking)
-        const hasPathToCastle = obstacles.every(obs => {
-          if (obs.cleared) return true;
-          // Check if this obstacle blocks the path to castle
-          return !(obs.position.x === castlePosition.x && obs.position.y === castlePosition.y);
-        });
-        
-        console.log('Path to castle clear:', hasPathToCastle);
-        
-        if (hasPathToCastle) {
-          playCastleReach();
-          console.log('Castle clicked and reachable! Triggering victory...');
-          triggerVictory(); // Actually trigger victory!
-        } else {
-          console.log('Castle clicked but path is blocked!');
-        }
-      } else {
-        console.log('Castle is not on road!');
-      }
-    } else {
-      console.log('Game not in playing state:', gameState);
-    }
+    if (!canClickCastle()) return;
+    playCastleReach();
+    triggerVictory();
   };
 
   return (
@@ -170,7 +141,7 @@ export default function App() {
       </div>
 
       {/* Header */}
-      <div className="relative z-20 flex flex-col items-center pt-4 pb-2">
+      <div className="relative z-20 flex flex-col items-center pt-4 pb-2" style={{ pointerEvents: 'none' }}>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">Princess Elvia Adventure</h1>
         <div className="flex justify-center gap-2 mb-2">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -182,6 +153,7 @@ export default function App() {
         <button
           onClick={handleStartGame}
           className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-bold shadow-lg"
+          style={{ pointerEvents: 'auto' }}
         >
           Reset Game
         </button>
@@ -215,11 +187,13 @@ export default function App() {
                   {isPlayer && <div className="absolute inset-0 z-20"><PrincessUnicorn /></div>}
                   {isCastle && !isPlayer && (
                     <div 
-                      className="absolute inset-0 z-10 cursor-pointer hover:scale-110 transition-transform flex items-center justify-center border-2 border-transparent hover:border-purple-400 hover:border-opacity-50 rounded"
+                      className={`absolute inset-0 z-10 transition-transform flex items-center justify-center border-2 border-transparent rounded ${
+                        canClickCastle()
+                          ? 'cursor-pointer hover:scale-110 hover:border-purple-400 hover:border-opacity-50'
+                          : 'cursor-not-allowed opacity-60'
+                      }`}
                       onClick={handleCastleClick}
                     >
-                      {/* Transparent overlay to ensure full area is clickable */}
-                      <div className="absolute inset-0 bg-transparent" />
                       <RainbowCastle />
                     </div>
                   )}

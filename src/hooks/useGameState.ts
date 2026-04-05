@@ -172,6 +172,13 @@ export const useGameState = () => {
     return isPositionReachable(playerPosition, obstacle.position, roadPath, obstacles);
   }, [obstacles, playerPosition, roadPath, gameState]);
 
+  // Check if the castle can be clicked (reachable with no uncleared obstacles blocking the path)
+  const canClickCastle = useCallback((): boolean => {
+    if (gameState !== 'playing') return false;
+    const castlePosition = { x: GRID_SIZE - 1, y: 0 };
+    return isPositionReachable(playerPosition, castlePosition, roadPath, obstacles);
+  }, [playerPosition, roadPath, obstacles, gameState]);
+
   return {
     // State
     playerPosition,
@@ -190,6 +197,7 @@ export const useGameState = () => {
     handleAnswer,
     resolveBattle,
     canClickObstacle,
+    canClickCastle,
     triggerVictory,
   };
 };

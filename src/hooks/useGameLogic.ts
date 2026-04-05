@@ -17,16 +17,15 @@ export const useGameLogic = (soundEffectsEnabled: boolean) => {
     handleAnswer,
     resolveBattle,
     canClickObstacle,
+    canClickCastle,
     triggerVictory,
   } = useGameState();
 
   const {
-    playBackgroundMusic,
-    stopBackgroundMusic,
-    playBattleWin,
-    playBattleLose,
     playGameOver,
     playCastleReach,
+    playBattleWin,
+    playBattleLose,
   } = useSoundEffects();
 
   const isRoadCell = useCallback((x: number, y: number) => {
@@ -90,6 +89,9 @@ export const useGameLogic = (soundEffectsEnabled: boolean) => {
     handleSubmitAnswer,
     isRoadCell,
     canClickObstacle,
+    canClickCastle,
     triggerVictory,
+    playBattleWin,
+    playBattleLose,
   };
 };
