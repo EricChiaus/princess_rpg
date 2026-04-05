@@ -9,12 +9,14 @@ export const useSoundEffects = () => {
   const isAudioInitialized = useRef(false);
 
   useEffect(() => {
-    // Initialize audio elements - only load files that actually exist
-    bgMusicRef.current = new Audio('/sounds/background-music.mp3');
-    battleWinRef.current = new Audio('/sounds/battle-win.wav');
-    battleLoseRef.current = new Audio('/sounds/battle_lose.wav');
-    gameOverRef.current = new Audio('/sounds/game_over.wav');
-    castleReachRef.current = new Audio('/sounds/castle_reach.wav');
+    // Initialize audio elements using import.meta.env.BASE_URL so paths
+    // work on GitHub Pages (where the site lives under a subpath).
+    const base = import.meta.env.BASE_URL;
+    bgMusicRef.current = new Audio(`${base}sounds/background-music.mp3`);
+    battleWinRef.current = new Audio(`${base}sounds/battle-win.wav`);
+    battleLoseRef.current = new Audio(`${base}sounds/battle_lose.wav`);
+    gameOverRef.current = new Audio(`${base}sounds/game_over.wav`);
+    castleReachRef.current = new Audio(`${base}sounds/castle_reach.wav`);
 
     // Configure background music with proper looping
     if (bgMusicRef.current) {

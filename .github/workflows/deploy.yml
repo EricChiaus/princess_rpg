@@ -36,18 +36,13 @@ jobs:
 
     - name: Build
       run: npm run build
-
-    - name: Copy assets to root
-      run: |
-        ls -la dist/
-        cp -r dist/* .
-        cp -r public/sounds dist/
-        ls -la sounds/
+      env:
+        VITE_BASE_PATH: /princess_rpg/
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: .
+        path: dist
 
   # Deployment job
   deploy:
