@@ -25,6 +25,16 @@ jobs:
     - name: Build
       run: npm run build
 
+    - name: Move assets to root
+      run: |
+        mkdir -p assets
+        cp -r dist/assets/* assets/
+
+    - name: Update index.html for GitHub Pages
+      run: |
+        sed -i 's|href="/dist/assets/|href="assets/|g' dist/index.html
+        sed -i 's|src="/dist/assets/|src="assets/|g' dist/index.html
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/master'
