@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export const useSoundEffects = () => {
+export const useSoundEffects = (soundEffectsEnabled: boolean = true) => {
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
   const battleWinRef = useRef<HTMLAudioElement | null>(null);
   const battleLoseRef = useRef<HTMLAudioElement | null>(null);
@@ -108,6 +108,7 @@ export const useSoundEffects = () => {
   };
 
   const playBattleWin = () => {
+    if (!soundEffectsEnabled) return;
     initializeAudio();
     if (battleWinRef.current) {
       battleWinRef.current.currentTime = 0;
@@ -124,6 +125,7 @@ export const useSoundEffects = () => {
   };
 
   const playBattleLose = () => {
+    if (!soundEffectsEnabled) return;
     initializeAudio();
     if (battleLoseRef.current) {
       battleLoseRef.current.currentTime = 0;
@@ -140,6 +142,7 @@ export const useSoundEffects = () => {
   };
 
   const playGameOver = () => {
+    if (!soundEffectsEnabled) return;
     initializeAudio();
     if (gameOverRef.current) {
       gameOverRef.current.currentTime = 0;
@@ -156,6 +159,7 @@ export const useSoundEffects = () => {
   };
 
   const playCastleReach = () => {
+    if (!soundEffectsEnabled) return;
     initializeAudio();
     if (castleReachRef.current) {
       castleReachRef.current.currentTime = 0;

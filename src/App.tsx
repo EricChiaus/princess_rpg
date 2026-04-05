@@ -48,7 +48,7 @@ export default function App() {
     playBackgroundMusic,
     stopBackgroundMusic,
     playCastleReach,
-  } = useSoundEffects();
+  } = useSoundEffects(soundEffectsEnabled);
 
   const handleStartGame = () => {
     initializeGame();
