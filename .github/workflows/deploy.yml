@@ -41,7 +41,7 @@ jobs:
       run: |
         ls -la dist/
         cp -r dist/* .
-        cp -r dist/sounds .
+        cp -r public/sounds dist/
         ls -la sounds/
 
     - name: Upload artifact
