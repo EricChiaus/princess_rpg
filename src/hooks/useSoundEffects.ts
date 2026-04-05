@@ -67,23 +67,37 @@ export const useSoundEffects = () => {
   };
 
   const playBackgroundMusic = () => {
-    if (bgMusicRef.current && !isAudioInitialized.current) {
-      bgMusicRef.current.play().catch(error => {
-        if (error) {
-          console.error('Background music play failed:', error);
-          // Try to reload and play again
-          if (bgMusicRef.current) {
-            bgMusicRef.current.load();
-            bgMusicRef.current.play().catch(retryError => {
-              if (retryError) {
-                console.error('Background music retry failed:', retryError);
-              } else {
-                console.log('Background music started after retry');
-              }
-            });
-          }
-        }
+    console.log('playBackgroundMusic called');
+    console.log('bgMusicRef.current:', bgMusicRef.current);
+    
+    if (bgMusicRef.current) {
+      const audioElement = bgMusicRef.current;
+      console.log('Attempting to play background music...');
+      console.log('Current src:', audioElement.src);
+      console.log('Current volume:', audioElement.volume);
+      console.log('Current loop:', audioElement.loop);
+      
+      audioElement.play().then(() => {
+        console.log('Background music play started successfully');
+      }).catch(error => {
+        console.error('Background music play failed:', error);
+        console.error('Error details:', {
+          name: error.name,
+          message: error.message,
+          code: error.code
+        });
+        
+        // Try to reload and play again
+        console.log('Attempting to reload and retry...');
+        audioElement.load();
+        audioElement.play().then(() => {
+          console.log('Background music started after retry');
+        }).catch(retryError => {
+          console.error('Background music retry failed:', retryError);
+        });
       });
+    } else {
+      console.error('bgMusicRef.current is null');
     }
   };
 
