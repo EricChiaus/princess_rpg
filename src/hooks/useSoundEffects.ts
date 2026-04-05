@@ -22,7 +22,8 @@ export const useSoundEffects = () => {
     // Try WAV fallback if MP3 doesn't exist
     const tryWavFallback = (audioRef: AudioRef, wavFile: string) => {
       if (audioRef.current) {
-        audioRef.current.addEventListener('error', () => {
+        audioRef.current.addEventListener('error', (e) => {
+          console.error(`Audio error for ${audioRef.current?.src}:`, e);
           console.log(`MP3 not found, trying WAV: ${wavFile}`);
           audioRef.current!.src = `/sounds/${wavFile}`;
           audioRef.current!.load();
@@ -88,14 +89,23 @@ export const useSoundEffects = () => {
   };
 
   const playBackgroundMusic = () => {
-    initializeAudio();
-    if (bgMusicRef.current) {
-      const playPromise = bgMusicRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Background music play failed:', error);
-        });
-      }
+    if (bgMusicRef.current && !isAudioInitialized.current) {
+      bgMusicRef.current.play().catch(error => {
+        if (error) {
+          console.error('Background music play failed:', error);
+          // Try to reload and play again
+          if (bgMusicRef.current) {
+            bgMusicRef.current.load();
+            bgMusicRef.current.play().catch(retryError => {
+              if (retryError) {
+                console.error('Background music retry failed:', retryError);
+              } else {
+                console.log('Background music started after retry');
+              }
+            });
+          }
+        }
+      });
     }
   };
 
