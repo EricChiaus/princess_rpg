@@ -25,6 +25,8 @@ jobs:
     - name: Set base path for GitHub Pages
       run: |
         sed -i "s/base: '\.\/'/base: '\/princess_rpg\/'/" vite.config.ts
+        sed -i 's|href="/dist/assets/|href="/princess_rpg/dist/assets/|g' index.html
+        sed -i 's|src="/dist/assets/|src="/princess_rpg/dist/assets/|g' index.html
 
     - name: Build
       run: npm run build
@@ -34,4 +36,4 @@ jobs:
       if: github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+        publish_dir: .
