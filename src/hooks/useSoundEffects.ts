@@ -1,7 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { RefObject } from 'react';
-
-type AudioRef = RefObject<HTMLAudioElement>;
 
 export const useSoundEffects = () => {
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
@@ -12,31 +9,12 @@ export const useSoundEffects = () => {
   const isAudioInitialized = useRef(false);
 
   useEffect(() => {
-    // Initialize audio elements - support both MP3 and WAV formats
+    // Initialize audio elements - only load files that actually exist
     bgMusicRef.current = new Audio('/sounds/background-music.mp3');
-    battleWinRef.current = new Audio('/sounds/battle-win.mp3');
-    battleLoseRef.current = new Audio('/sounds/battle-lose.mp3');
-    gameOverRef.current = new Audio('/sounds/game-over.mp3');
-    castleReachRef.current = new Audio('/sounds/castle-reach.mp3');
-
-    // Try WAV fallback if MP3 doesn't exist
-    const tryWavFallback = (audioRef: AudioRef, wavFile: string) => {
-      if (audioRef.current) {
-        audioRef.current.addEventListener('error', (e) => {
-          console.error(`Audio error for ${audioRef.current?.src}:`, e);
-          console.log(`MP3 not found, trying WAV: ${wavFile}`);
-          audioRef.current!.src = `/sounds/${wavFile}`;
-          audioRef.current!.load();
-        }, { once: true });
-      }
-    };
-
-    // Apply WAV fallbacks (no battle-start sound anymore)
-    tryWavFallback(bgMusicRef, 'background-music.wav');
-    tryWavFallback(battleWinRef, 'battle-win.wav');
-    tryWavFallback(battleLoseRef, 'battle_lose.wav'); // Note: underscore, not hyphen
-    tryWavFallback(gameOverRef, 'game-over.wav');
-    tryWavFallback(castleReachRef, 'castle_reach.wav'); // Note: underscore, not hyphen
+    battleWinRef.current = new Audio('/sounds/battle-win.wav');
+    battleLoseRef.current = new Audio('/sounds/battle_lose.wav');
+    gameOverRef.current = new Audio('/sounds/game_over.wav');
+    castleReachRef.current = new Audio('/sounds/castle_reach.wav');
 
     // Configure background music with proper looping
     if (bgMusicRef.current) {
@@ -51,7 +29,7 @@ export const useSoundEffects = () => {
         }
       });
     }
-
+    
     // Configure sound effects - higher volume to be heard over background music
     [
       battleWinRef.current,
@@ -63,7 +41,7 @@ export const useSoundEffects = () => {
         audio.volume = 0.8; // Higher volume for sound effects (80%)
       }
     });
-
+    
     return () => {
       // Cleanup
       bgMusicRef.current?.pause();
