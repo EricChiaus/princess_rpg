@@ -22,14 +22,18 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Set base path for GitHub Pages
-      run: |
-        sed -i "s/base: '\.\/'/base: '\/princess_rpg\/'/" vite.config.ts
-        sed -i 's|href="/dist/assets/|href="/princess_rpg/dist/assets/|g' index.html
-        sed -i 's|src="/dist/assets/|src="/princess_rpg/dist/assets/|g' index.html
-
     - name: Build
       run: npm run build
+
+    - name: Copy built files to root
+      run: |
+        cp dist/assets/index.js index.js
+        cp dist/assets/index.css index.css
+
+    - name: Update index.html for GitHub Pages
+      run: |
+        sed -i 's|href="/dist/assets/index.css"|href="index.css"|g' index.html
+        sed -i 's|src="/dist/assets/index.js"|src="index.js"|g' index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
